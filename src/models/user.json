@@ -1,0 +1,112 @@
+{
+  "users": [
+    {
+      "id": "101",
+      "f_name": "Tep",
+      "l_name": "Devit",
+      "company": "D-Company",
+      "location": "Kampot",
+      "phone": "0967234500",
+      "email": "helloimdevit@gmail.com",
+      "password": "999",
+      "image": "https://res.cloudinary.com/dyz2kowij/image/upload/v1744359955/profile_me_u5gwo3.jpg",
+      "position": "admin"
+    },
+    {
+      "id": "102",
+      "f_name": "Chea",
+      "l_name": "Channita",
+      "company": "Milkiway",
+      "location": "st-2003/Phnom-Penh",
+      "phone": "0987654321",
+      "email": "nita.chan@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "admin"
+    },
+    {
+      "id": "103",
+      "f_name": "Sok",
+      "l_name": "Vicheka",
+      "company": "TechWorld",
+      "location": "Siem Reap",
+      "phone": "0971234567",
+      "email": "vicheka.sok@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "104",
+      "f_name": "Kim",
+      "l_name": "Sreyna",
+      "company": "GreenFarm",
+      "location": "Battambang",
+      "phone": "0959876543",
+      "email": "sreyna.kim@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "105",
+      "f_name": "Chan",
+      "l_name": "Dara",
+      "company": "Skyline",
+      "location": "Kandal",
+      "phone": "0934567890",
+      "email": "dara.chan@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "106",
+      "f_name": "Sina",
+      "l_name": "Rath",
+      "company": "BrightTech",
+      "location": "Takeo",
+      "phone": "0923456789",
+      "email": "sina.rath@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "107",
+      "f_name": "Mony",
+      "l_name": "Sokha",
+      "company": "AgriPlus",
+      "location": "Kampong Cham",
+      "phone": "0945678901",
+      "email": "mony.sokha@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "108",
+      "f_name": "Vuthy",
+      "l_name": "Chhay",
+      "company": "SmartSolutions",
+      "location": "Prey Veng",
+      "phone": "0912345678",
+      "email": "vuthy.chhay@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    },
+    {
+      "id": "109",
+      "f_name": "Srey",
+      "l_name": "Pich",
+      "company": "EcoLife",
+      "location": "Koh Kong",
+      "phone": "0967890123",
+      "email": "srey.pich@gmail.com",
+      "password": "111",
+      "image": "",
+      "position": "user"
+    }
+  ]
+}
