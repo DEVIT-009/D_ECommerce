@@ -1,11 +1,7 @@
 <script setup>
 import { Ellipsis } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
-import {
-  useGetProd,
-  useDeleteProd,
-  state,
-} from "../../services/ProductService.js";
+import { useGetProd, useDeleteProd, state } from "@/services/ProductService.js";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import { useToast } from "vue-toastification";
 
@@ -57,11 +53,13 @@ async function handleRemove(id) {
           class="bg-white border-b border-gray-200 hover:bg-gray-50 transition-all group dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700"
         >
           <td class="p-4">
-            <img
-              :src="item.image"
-              class="w-20 md:w-32 rounded-sm max-w-full max-h-full"
-              alt="Apple Watch"
-            />
+            <figure>
+              <img
+                :src="item.image"
+                class="w-20 md:w-32 rounded-sm max-w-full max-h-full"
+                alt="Apple Watch"
+              />
+            </figure>
           </td>
           <td
             class="px-6 py-4 font-semibold text-gray-900 dark:text-white max-md:text-[12px]"

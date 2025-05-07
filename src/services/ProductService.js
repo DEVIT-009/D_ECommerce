@@ -1,4 +1,4 @@
-import { getCurrentInstance, reactive } from "vue";
+import { reactive } from "vue";
 import axios from "axios";
 
 const prodUrl = import.meta.env.VITE_API_URL + "/products";
