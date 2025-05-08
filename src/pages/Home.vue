@@ -4,7 +4,7 @@ import { CornerDownRight } from "lucide-vue-next";
 </script>
 <template>
   <div class="max-w-7xl mx-auto my-2">
-    <RouterLink to="/products" class="btn btn-xl btn-primary btn-soft">
+    <RouterLink to="/products" class="btn md:btn-xl btn-primary">
       <CornerDownRight />
       OUR Products
     </RouterLink>

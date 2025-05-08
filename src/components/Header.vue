@@ -10,8 +10,10 @@ import ProfileCart from "./ProfileCart.vue";
   >
     <Nav />
 
-    <div class="navbar-center btn md:px-7">
-      <RouterLink :to="'/'" class="md:text-xl">D-CAMPhone</RouterLink>
+    <div class="navbar-center md:px-7">
+      <RouterLink :to="'/'" class="btn md:btn-lg btn-ghost">
+        D-CAMPhone
+      </RouterLink>
     </div>
 
     <ProfileCart />

@@ -10,7 +10,7 @@ const { state: getProd } = useGetProd();
 const arrBrand = computed(() => {
   return Array.isArray(getProd.products)
     ? [...new Set(getProd.products.map((product) => product.brand))]
-    : []; 
+    : [];
 });
 const eachBrand = ref("");
 
@@ -32,17 +32,17 @@ function handleResetBrand() {
     >
       <button
         @click="() => handleChangeBrand(brand)"
-        class="btn btn-xl btn-soft btn-primary"
+        class="btn btn-xl md:btn-wide btn-primary"
       >
         <CornerDownRight />
-        Filter {{ brand.toUpperCase() }}s
+        Filter {{ brand.toUpperCase() }}
       </button>
       <CardContainer :_brand="brand" :limit="4" />
     </div>
     <!-- Product One Brand -->
     <div v-else class="pt-4">
       <div class="flex gap-1">
-        <button @click="handleResetBrand" class="btn btn-xl">
+        <button @click="handleResetBrand" class="btn md:btn-wide btn-xl">
           <ChevronLeft />
         </button>
         <h2 class="btn btn-xl px-10">{{ eachBrand }}</h2>

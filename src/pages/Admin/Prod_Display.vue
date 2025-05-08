@@ -1,7 +1,7 @@
 <script setup>
 import CardContainer from "../../components/CardContainer.vue";
 import { useGetProd } from "../../services/ProductService.js";
-import { computed, reactive, ref } from "vue";
+import { computed, ref } from "vue";
 import { CornerDownRight, ChevronLeft } from "lucide-vue-next";
 
 // get array that store all type without douplicate
@@ -30,11 +30,14 @@ function handleResetBrand() {
       v-for="(brand, index) in arrBrand"
       :key="index"
     >
-      <button @click="() => handleChangeBrand(brand)" class="btn btn-xl">
+      <button
+        @click="() => handleChangeBrand(brand)"
+        class="btn md:btn-xl btn-primary"
+      >
         <CornerDownRight />
         Filter {{ brand.toUpperCase() }}s
       </button>
-      <CardContainer :_showAddCart="false" :_brand="brand" :limit="3" />
+      <CardContainer :_showAddCart="false" :_brand="brand" :limit="4" />
     </div>
     <!-- Product One Brand -->
     <div v-else class="pt-4">

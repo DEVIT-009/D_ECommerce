@@ -67,14 +67,11 @@ const cartStore = useCartStore();
     </div>
     <!-- Profile -->
     <div class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-circle avatar">
+      <div tabindex="0" role="button" class="avatar cursor-pointer">
         <div
-          class="w-10 rounded-full ring-4 ring-success/35 hover:ring-success transition-all"
+          class="ring-accent ring-offset-base-100 w-9 rounded-full ring-2 ring-offset-2"
         >
-          <img
-            alt="profile-user"
-            :src="userStore.image || userStore.imgDefault"
-          />
+          <img :src="userStore.image || userStore.imgDefault" />
         </div>
       </div>
       <ul
