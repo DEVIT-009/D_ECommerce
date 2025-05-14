@@ -3,7 +3,7 @@
 import { imgState, useUploadCloudinary } from "@/services/cloudinaryService";
 import { usePostProd } from "@/services/ProductService.js";
 // Style & Library
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useToast } from "vue-toastification";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 // Router
@@ -12,33 +12,31 @@ import rootrouter from "@/routers/rootrouter.js";
 // Data temporary with reactive
 const prodState = reactive({
   // id: Date.now() + Math.random().toString(36).slice(2, 9),
-  name: "iPhone 14 Pro Max",
-  brand: "Apple",
-  price: 1299,
-  storage: "256GB",
-  ram: "6GB",
-  color: "Deep Purple",
-  os: "iOS 16",
-  chip: "A16 Bionic",
-  battery: "4323mAh",
-  display: "6.7-inch Super Retina XDR OLED",
+  name: "",
+  brand: "",
+  price: 0,
+  storage: "",
+  ram: "",
+  color: "",
+  os: "",
+  chip: "",
+  battery: "",
+  display: "",
   camera: {
-    rear: "48MP + 12MP + 12MP",
-    front: "12MP",
+    rear: "",
+    front: "",
   },
-  description:
-    "The iPhone 14 Pro Max features a powerful A16 Bionic chip, a beautiful OLED display, and an advanced triple-camera system.",
-  releaseDate: "2022-09-16",
-  network: ["5G", "4G LTE", "3G"],
-  dimensions: "160.7 x 77.6 x 7.9 mm",
-  weight: "240g",
+  description: "",
+  releaseDate: "",
+  network: [],
+  dimensions: "",
+  weight: "",
   image: "",
-  inStock: true,
-  quantity: 10,
-  rate: 4.4,
-
-  rawImage: null,
+  inStock: false,
+  quantity: 0,
+  rate: 0,
 });
+const rawImage = ref(null);
 
 const uploadUrl = import.meta.env.VITE_CLOUDINARY_UPLOAD_IMG_URL;
 const { state, postProd } = usePostProd();
@@ -53,14 +51,14 @@ function toggleNetwork(value) {
 }
 // Image OnChange
 function handleChangeImg(event) {
-  prodState.rawImage = event.target.files[0];
+  rawImage.value = event.target.files[0];
 }
 // Notification
 const toast = useToast();
 // Add data
 async function handleAdd() {
-  if (prodState.rawImage) {
-    await uploadCloudinary(uploadUrl, prodState.rawImage, "Phone_Product");
+  if (rawImage.value) {
+    await uploadCloudinary(uploadUrl, rawImage.value, "Phone_Product");
     prodState.image = imgState.imgUrl;
   }
 

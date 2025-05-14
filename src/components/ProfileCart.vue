@@ -83,7 +83,11 @@ const cartStore = useCartStore();
             >Profile</RouterLink
           >
         </li>
-        <li><a class="w-full md:text-[15px]">Settings</a></li>
+        <li>
+          <RouterLink to="/setting" class="w-full md:text-[15px]"
+            >Settings</RouterLink
+          >
+        </li>
         <li>
           <RouterLink to="/login" class="w-full md:text-[15px]"
             >Log in</RouterLink

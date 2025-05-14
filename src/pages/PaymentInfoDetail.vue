@@ -4,7 +4,6 @@ import rootrouter from "../routers/rootrouter";
 // CSS
 import { ChevronLeft, Info } from "lucide-vue-next";
 // Component
-import Button from "../components/Button.vue";
 import StepPayment from "../components/StepPayment.vue";
 // Hook
 import { useUserStore } from "../stores/userData";
@@ -21,20 +20,6 @@ const state = reactive({
   email: data.email.value,
   location: data.location.value,
 });
-
-function handleSumbit() {
-  // console.log(state);
-  if (
-    state.f_name.trim() == "" ||
-    state.l_name.trim() == "" ||
-    state.phone.trim() == "" ||
-    state.location == ""
-  ) {
-    return;
-  }
-  userStore.setUserData(state);
-  rootrouter.push("/payment/pay-method");
-}
 </script>
 
 <template>
@@ -71,6 +56,7 @@ function handleSumbit() {
               placeholder=" "
               v-model="state.f_name"
               required
+              disabled
             />
             <label
               for="floating_first_name"
@@ -87,6 +73,7 @@ function handleSumbit() {
               placeholder=" "
               v-model="state.l_name"
               required
+              disabled
             />
             <label
               for="floating_last_name"
@@ -106,6 +93,7 @@ function handleSumbit() {
               placeholder=" "
               v-model="state.phone"
               required
+              disabled
             />
             <label
               for="floating_phone"
@@ -121,6 +109,7 @@ function handleSumbit() {
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               v-model="state.company"
+              disabled
             />
             <label
               for="floating_company"
@@ -139,6 +128,7 @@ function handleSumbit() {
             placeholder=" "
             required
             v-model="state.email"
+            disabled
           />
           <label
             for="floating_email"
@@ -155,6 +145,7 @@ function handleSumbit() {
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             v-model="state.location"
+            disabled
           />
           <label
             for="floating_location"
@@ -163,12 +154,9 @@ function handleSumbit() {
           >
         </div>
         <div class="flex justify-end">
-          <Button
-            text="Next Step"
-            _class="btn-primary px-10"
-            _type="button"
-            @click="handleSumbit"
-          />
+          <RouterLink to="/payment/pay-method" class="btn btn-primary btn-wide">
+            Next Step
+          </RouterLink>
         </div>
       </form>
     </div>

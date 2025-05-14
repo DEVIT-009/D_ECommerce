@@ -23,6 +23,7 @@ import {
   PaymentInfoDetail,
   PaymentPay,
   Profile,
+  Setting,
 } from "../pages/index.js";
 // Admin Site Page
 import {
@@ -84,6 +85,12 @@ const router = createRouter({
           path: "profile",
           name: "profile",
           component: Profile,
+          meta: { requiresAuth: true },
+        },
+        {
+          path: "setting",
+          name: "setting",
+          component: Setting,
           meta: { requiresAuth: true },
         },
       ],

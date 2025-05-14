@@ -3,6 +3,7 @@ import { RouterLink } from "vue-router";
 import { LayoutDashboard, Smartphone, Users } from "lucide-vue-next";
 import { useUserStore } from "../stores/userData.js";
 import rootrouter from "../routers/rootrouter.js";
+import ProfileCart from "@/components/ProfileCart.vue";
 
 const userStore = useUserStore();
 
@@ -45,7 +46,8 @@ function handleLogOut() {
         >
       </div>
       <!-- Profile -->
-      <div class="dropdown dropdown-end">
+      <ProfileCart />
+      <!-- <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="avatar cursor-pointer">
           <div
             class="ring-accent ring-offset-base-100 w-9 rounded-full ring-2 ring-offset-2"
@@ -74,7 +76,7 @@ function handleLogOut() {
             </button>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
     <!--  
       Listing info 

@@ -22,7 +22,7 @@ function handleAddToCart() {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-sm ring-1 ring-slate-900">
+  <div class="card bg-base-100 shadow-sm ring-1 ring-slate-900 max-w-md">
     <figure class="relative group">
       <span
         class="bg-base-300/10 backdrop-blur-sm font-bold py-2 px-7 rounded-full text-warning text-xl ring-1 ring-white/20 cursor-default absolute top-2 right-2 group-hover:bg-base-300/50 group-hover:ring-white/90 transition-all"

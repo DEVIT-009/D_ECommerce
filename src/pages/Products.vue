@@ -42,7 +42,7 @@ function handleResetBrand() {
     <!-- Product One Brand -->
     <div v-else class="pt-4">
       <div class="flex gap-1">
-        <button @click="handleResetBrand" class="btn md:btn-wide btn-xl">
+        <button @click="handleResetBrand" class="btn btn-xl">
           <ChevronLeft />
         </button>
         <h2 class="btn btn-xl px-10">{{ eachBrand }}</h2>
