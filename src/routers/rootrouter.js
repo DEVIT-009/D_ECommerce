@@ -23,7 +23,7 @@ import {
   PaymentInfoDetail,
   PaymentPay,
   Profile,
-  Setting,
+  ManageAccount,
 } from "../pages/index.js";
 // Admin Site Page
 import {
@@ -88,9 +88,9 @@ const router = createRouter({
           meta: { requiresAuth: true },
         },
         {
-          path: "setting",
-          name: "setting",
-          component: Setting,
+          path: "manage-account",
+          name: "manage-account",
+          component: ManageAccount,
           meta: { requiresAuth: true },
         },
       ],

@@ -76,27 +76,42 @@ const cartStore = useCartStore();
       </div>
       <ul
         tabindex="0"
-        class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-2 w-40 p-4 shadow"
+        class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-2 w-52 p-4 shadow"
       >
         <li>
-          <RouterLink to="/profile" class="w-full md:text-[15px]"
-            >Profile</RouterLink
-          >
+          <RouterLink to="/profile" class="w-full md:text-[15px]">
+            Profile
+          </RouterLink>
+          <ul>
+            <li>
+              <RouterLink to="/manage-account" class="w-full ">
+                Manage Account
+              </RouterLink>
+            </li>
+          </ul>
         </li>
         <li>
-          <RouterLink to="/setting" class="w-full md:text-[15px]"
-            >Settings</RouterLink
-          >
-        </li>
-        <li>
-          <RouterLink to="/login" class="w-full md:text-[15px]"
-            >Log in</RouterLink
-          >
-        </li>
-        <li>
-          <button @click="handleLogOut" class="w-full md:text-[15px]">
-            Log out
-          </button>
+          <li class=" menu-title text-white">Account</li>
+          <ul>
+            <li>
+              <RouterLink to="/login" class="w-full ">
+                <!-- Login -->
+                Login
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/register" class="w-full">
+                <!-- Register -->
+                {{ userStore.isActive ? "Add new Account" : "Create Account" }}
+              </RouterLink>
+            </li>
+            <li>
+              <button @click="handleLogOut" class="w-full">
+                <!-- Logout -->
+                Exit Account
+              </button>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

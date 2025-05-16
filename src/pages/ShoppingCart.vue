@@ -1,9 +1,10 @@
 <script setup>
 import { useCartStore } from "../stores/cartStore"; // adjust path if needed
 import { storeToRefs } from "pinia";
-import Button from "@/components/Button.vue";
 import GrandTotal from "../components/GrandTotal.vue";
-import { Plus, Minus } from "lucide-vue-next";
+import { Plus, Minus, X } from "lucide-vue-next";
+import { useToast } from "vue-toastification";
+import rootrouter from "@/routers/rootrouter";
 
 const cartStore = useCartStore();
 const { cartItems } = storeToRefs(cartStore); // reactive reference
@@ -20,10 +21,23 @@ function handleRemoveOne(id) {
 function handleRemoveProd(id) {
   cartStore.removeProdFromCart(id);
 }
+const toast = useToast();
+function handleGoToPayment() {
+  if (cartStore.cartItems.length > 0) {
+    rootrouter.push("/payment");
+  } else {
+    toast.error("There is no product in your cart!", {
+      position: "bottom-right",
+      timeout: 1500,
+    });
+  }
+}
 </script>
 
 <template>
-  <section class="max-w-7xl mx-auto w-full flex max-lg:flex-col-reverse gap-2 py-2">
+  <section
+    class="max-w-7xl mx-auto w-full flex max-lg:flex-col-reverse gap-2 py-2"
+  >
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg flex-1">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -95,11 +109,12 @@ function handleRemoveProd(id) {
               ${{ (product.qty * product.price).toLocaleString() }}
             </td>
             <td class="px-6 py-4">
-              <Button
-                text="Remove"
+              <button
                 @click="() => handleRemoveProd(product.id)"
-                _class="btn-error"
-              />
+                class="btn btn-error btn-circle btn-soft"
+              >
+                <X />
+              </button>
             </td>
           </tr>
         </tbody>
@@ -108,7 +123,9 @@ function handleRemoveProd(id) {
     <div class="min-w-100">
       <GrandTotal />
       <div class="mt-2">
-        <Button text="Payment" _class="w-full btn-primary" link="/payment" />
+        <button class="btn btn-primary w-full" @click="handleGoToPayment">
+          Payment
+        </button>
       </div>
     </div>
   </section>

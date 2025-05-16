@@ -1,8 +1,6 @@
 <script setup>
-// Router
-import rootrouter from "../routers/rootrouter";
 // CSS
-import { ChevronLeft, Info } from "lucide-vue-next";
+import { ChevronLeft, Info, Pencil } from "lucide-vue-next";
 // Component
 import StepPayment from "../components/StepPayment.vue";
 // Hook
@@ -17,7 +15,6 @@ const state = reactive({
   l_name: data.l_name.value,
   phone: data.phone.value,
   company: data.company.value,
-  email: data.email.value,
   location: data.location.value,
 });
 </script>
@@ -42,7 +39,7 @@ const state = reactive({
         class="text-2xl bg-base-100 rounded-full py-4 px-7 font-bold flex items-center gap-2"
       >
         <Info />
-        Your Infomations
+        Reciever Infomations
       </h1>
       <form class="max-w-xl mx-auto py-5">
         <!-- First Name & Last Name -->
@@ -82,8 +79,8 @@ const state = reactive({
             >
           </div>
         </div>
-        <!-- Tel & Company -->
         <div class="grid md:grid-cols-2 md:gap-6">
+          <!-- Tel -->
           <div class="relative z-0 w-full mb-5 group">
             <input
               type="tel"
@@ -101,61 +98,32 @@ const state = reactive({
               >Phone/Tel (096 7234 500)</label
             >
           </div>
+          <!-- Location -->
           <div class="relative z-0 w-full mb-5 group">
             <input
               type="text"
-              name="floating_company"
-              id="floating_company"
+              name="floating_location"
+              id="floating_location"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
-              v-model="state.company"
+              v-model="state.location"
               disabled
             />
             <label
-              for="floating_company"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >Company (Optional)</label
+              for="floating_location"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >Location</label
             >
           </div>
         </div>
-        <!-- Email -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            type="email"
-            name="floating_email"
-            id="floating_email"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-            v-model="state.email"
-            disabled
-          />
-          <label
-            for="floating_email"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Email address (Optional)</label
-          >
-        </div>
-        <!-- Location -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            type="text"
-            name="floating_location"
-            id="floating_location"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            v-model="state.location"
-            disabled
-          />
-          <label
-            for="floating_location"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Location</label
-          >
-        </div>
-        <div class="flex justify-end">
+
+        <div class="flex justify-end gap-2">
+          <button class="btn btn-primary btn-soft">
+            <Pencil class="w-4 h-4" />
+            Update
+          </button>
           <RouterLink to="/payment/pay-method" class="btn btn-primary btn-wide">
-            Next Step
+            Confirm
           </RouterLink>
         </div>
       </form>

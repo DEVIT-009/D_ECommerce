@@ -89,7 +89,7 @@ async function handleSubmit() {
       <h1
         class="max-w-sm mx-auto p-4 w-full text-3xl font-bold rounded-full text-center"
       >
-        Registration Form
+        Create Account
       </h1>
       <form
         class="max-w-sm mx-auto p-5 rounded-lg"

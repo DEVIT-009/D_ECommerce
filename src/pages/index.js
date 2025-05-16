@@ -1,6 +1,6 @@
 export { default as Home } from "./Home.vue";
 export { default as About } from "./About.vue";
-export { default as Setting } from "./Setting.vue";
+export { default as ManageAccount } from "./ManageAccount.vue";
 export { default as Products } from "./Products.vue";
 export { default as ProductDetail } from "./ProductDetail.vue";
 export { default as ShoppingCart } from "./ShoppingCart.vue";
