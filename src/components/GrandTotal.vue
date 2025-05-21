@@ -23,7 +23,7 @@ const cartStore = useCartStore();
           } list-grand-total`"
         >
           <span class="label"><SquarePen />Delivery</span>
-          <span>: ${{ cartStore.delivery }}</span>
+          <span>: ${{ cartStore.delivery_price }}</span>
         </li>
         <li class="grid list-grand-total">
           <span class="label"><SquarePen />Tax({{ cartStore.taxRate }}%)</span>

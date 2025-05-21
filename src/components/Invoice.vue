@@ -66,7 +66,7 @@ const { cartItems } = storeToRefs(cartStore);
             <td class="text-[12px] sm:text-sm">
               {{ index < 9 ? "0" + (index + 1) : index + 1 }}
             </td>
-            <td class="text-[12px] sm:text-sm">{{ item.name }}</td>
+            <td class="text-[12px] sm:text-sm">{{ item.product_name }}</td>
             <td class="text-[12px] sm:text-sm">{{ item.qty }}</td>
             <td class="text-[12px] sm:text-sm">${{ item.price }}</td>
             <td class="text-[12px] sm:text-sm">
@@ -100,7 +100,7 @@ const { cartItems } = storeToRefs(cartStore);
           }`"
         >
           <span>Delivery</span>
-          <span>: ${{ cartStore.delivery.toLocaleString() }}</span>
+          <span>: ${{ cartStore.delivery_price.toLocaleString() }}</span>
         </li>
         <li class="grid grid-cols-2 p-3 rounded-lg ring-1 ring-white/50 mt-2">
           <span>Grand-Total</span>

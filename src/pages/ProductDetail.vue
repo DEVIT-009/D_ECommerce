@@ -11,7 +11,9 @@ import { useGetOneProd } from "../services/ProductService.js";
 
 const route = useRoute();
 const id = route.params.id;
+
 const { state: getProd, getOneProd } = useGetOneProd();
+
 const product = reactive({
   price: "",
   camera: {
@@ -22,22 +24,22 @@ const product = reactive({
 
 onMounted(async () => {
   await getOneProd(id);
-  if (!getProd.isLoading) {
-    Object.assign(product, getProd.products);
+  if (!getProd.isLoading && getProd.products && !getProd.error) {
+    Object.assign(product, getProd.products[0]); // Fix: Access first item from products array
   }
 });
 
 const feature = computed(() => {
   if (!product) return {};
   const {
-    id,
-    name,
+    product_id,
+    product_name,
     price,
     image,
     camera,
     network,
     quantity,
-    inStock,
+    in_stock,
     description,
     rate,
     ...rest
@@ -65,7 +67,9 @@ function handleAdd() {
     v-if="product && !getProd.isLoading"
   >
     <div class="flex-1">
-      <h1 class="text-warning text-2xl font-bold">{{ product.name }}</h1>
+      <h1 class="text-warning text-2xl font-bold">
+        {{ product.product_name }}
+      </h1>
       <div class="border-[1px] border-white/20 my-2"></div>
       <p class="">{{ product.description }}</p>
       <figure class="mt-3">
@@ -109,15 +113,15 @@ function handleAdd() {
             <p class="text-lg font-bold">Camera</p>
             <p class="flex items-center gap-2">
               <Check class="bg-base-300 rounded-full p-1" /><span>Rear : </span
-              ><span class="bg-base-300 rounded-full py-1 px-3">{{
-                product.camera.rear
-              }}</span>
+              ><span class="bg-base-300 rounded-full py-1 px-3">
+                {{ product.camera.rear }}
+              </span>
             </p>
             <p class="flex items-center gap-2">
               <Check class="bg-base-300 rounded-full p-1" /><span>Front : </span
-              ><span class="bg-base-300 rounded-full py-1 px-3">{{
-                product.camera.front
-              }}</span>
+              ><span class="bg-base-300 rounded-full py-1 px-3">
+                {{ product.camera.front }}
+              </span>
             </p>
           </div>
           <div class="flex items-center gap-2">

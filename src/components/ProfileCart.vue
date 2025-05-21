@@ -16,7 +16,7 @@ const cartStore = useCartStore();
 </script>
 
 <template>
-  <div class="navbar-end flex gap-4">
+  <div class="w-fit navbar-end flex gap-4">
     <!-- Cart -->
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn cursor-default">
@@ -79,7 +79,7 @@ const cartStore = useCartStore();
         class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-2 w-52 p-4 shadow"
       >
         <li>
-          <RouterLink to="/profile" class="w-full md:text-[15px]">
+          <RouterLink to="/profile" class="w-full text-[15px]">
             Profile
           </RouterLink>
           <ul>
@@ -91,7 +91,7 @@ const cartStore = useCartStore();
           </ul>
         </li>
         <li>
-          <li class=" menu-title text-white">Account</li>
+          <li class=" menu-title">Account</li>
           <ul>
             <li>
               <RouterLink to="/login" class="w-full ">
@@ -108,7 +108,7 @@ const cartStore = useCartStore();
             <li>
               <button @click="handleLogOut" class="w-full">
                 <!-- Logout -->
-                Exit Account
+                Sign Out
               </button>
             </li>
           </ul>

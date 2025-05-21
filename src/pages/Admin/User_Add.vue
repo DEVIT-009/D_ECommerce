@@ -1,25 +1,30 @@
 <script setup>
+// image
+import banner from "@/assets/banner.png";
 // ICONs & Style
-import { Eye, EyeOff, SendHorizontal, RotateCw } from "lucide-vue-next";
+import { Eye, EyeOff, SendHorizontal } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 // Hook
 import { reactive, ref } from "vue";
+import { useUserStore } from "@/stores/userData.js";
 // Service API
 import { state, useGetUser, usePostUser } from "@/services/userService.js";
+import { id_state, generateUserId } from "@/services/generateID.js";
 // Router
 import rootrouter from "@/routers/rootrouter.js";
 
 const toast = useToast();
 const isShowCode = ref(true);
+const userStore = useUserStore();
 
 const { getUser } = useGetUser();
 const { postUser } = usePostUser();
 
 const userState = reactive({
-  // id: Date.now().toString(), use mockapi it is already generate id unigue
-  f_name: "",
-  l_name: "",
+  user_id: null,
+  first_name: "",
+  last_name: "",
   phone: "",
   company: "",
   email: "",
@@ -30,38 +35,54 @@ const userState = reactive({
 });
 
 async function handleSubmit() {
+  // Get all users for check any condition
   await getUser();
-  // Prevent Duplicate Tel & Email
-  let error = "";
-  if (state.users.find((item) => item.phone === userState.phone)) {
-    error = "This phone number is already used...";
-  } else if (state.users.find((item) => item.email === userState.email)) {
-    error = "This email is already used...";
-  }
+  if (!state.isLoading && !state.error) {
+    // Prevent Duplicate Tel & Email
+    let error = "";
+    if (state.users.find((item) => item.phone === userState.phone)) {
+      error = "This phone number is already used...";
+    } else if (state.users.find((item) => item.email === userState.email)) {
+      error = "This email is already used...";
+    }
 
-  if (error) {
-    toast.error(error);
-    return;
+    if (error) {
+      toast.error(error);
+      return;
+    }
   }
-  // ADD User
-  await postUser(userState);
+  // Generate user ID before posting
+  await generateUserId();
+  userState.user_id = id_state.id;
 
-  if (!state.error && !state.isLoading) {
-    // Notifcation
-    toast.success("User added successfully...");
-    // Route to Profile after added
-    rootrouter.push("/d-admin/user/" + state.users.id);
-  } else {
-    toast.error("There's something went wrong...");
-    console.error("Cannot add, error : ", state.error);
+  if (
+    !id_state.isLoading &&
+    !id_state.error &&
+    !state.isLoading &&
+    !state.error
+  ) {
+    // ADD User
+    await postUser(userState);
+
+    if (!state.error && !state.isLoading) {
+      // Notifcation
+      toast.success("User added successfully...");
+      // Route to Profile after added
+      rootrouter.push(`/d-admin/user/${id_state.id}`);
+    } else {
+      toast.error("There's something went wrong...");
+      console.error("Cannot add, error : ", state.error);
+    }
   }
 }
 </script>
 <template>
-  <div class="max-w-7xl mx-auto w-full p-1 gap-4 items-center">
+  <div
+    class="max-w-7xl mx-auto w-full p-1 md:grid md:grid-cols-2 grid-cols-1 gap-4 items-center"
+  >
     <!-- Loading -->
     <div
-      v-if="state.isLoading"
+      v-if="state.isLoading || id_state.isLoading"
       class="fixed inset-0 flex items-center justify-center z-10 bg-base-300/5 backdrop-blur-[3px]"
     >
       <PulseLoader color="#ffffff" />
@@ -73,7 +94,7 @@ async function handleSubmit() {
       <h1
         class="max-w-sm mx-auto p-4 w-full text-3xl font-bold rounded-full text-center"
       >
-        Registration Form
+        Create Account
       </h1>
       <form
         class="max-w-sm mx-auto p-5 rounded-lg"
@@ -82,15 +103,12 @@ async function handleSubmit() {
         <!-- User Name -->
         <div class="mb-5 flex gap-5 max-sm:flex-col">
           <!-- First Name -->
-          <div class="">
-            <label
-              for="first-name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div class="flex-1">
+            <label for="first-name" class="flex items-center gap-2">
               First Name:
             </label>
             <input
-              v-model="userState.f_name"
+              v-model="userState.first_name"
               type="text"
               required
               id="first-name"
@@ -99,15 +117,12 @@ async function handleSubmit() {
             />
           </div>
           <!-- Last Name -->
-          <div class="">
-            <label
-              for="last-name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div class="flex-1">
+            <label for="last-name" class="flex items-center gap-2">
               Last Name:
             </label>
             <input
-              v-model="userState.l_name"
+              v-model="userState.last_name"
               type="text"
               required
               id="last-name"
@@ -119,11 +134,8 @@ async function handleSubmit() {
         <!-- Tel & Company -->
         <div class="mb-5 flex gap-5 max-sm:flex-col">
           <!-- Phone Number -->
-          <div class="">
-            <label
-              for="phone-number"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div class="flex-1">
+            <label for="phone-number" class="flex items-center gap-2">
               Phone Number:
             </label>
             <input
@@ -136,11 +148,8 @@ async function handleSubmit() {
             />
           </div>
           <!-- Company -->
-          <div class="">
-            <label
-              for="company"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div class="flex-1">
+            <label for="company" class="flex items-center gap-2">
               Company (optional):
             </label>
             <input
@@ -154,10 +163,7 @@ async function handleSubmit() {
         </div>
         <!-- Email -->
         <div class="mb-5 flex-1">
-          <label
-            for="email-address-icon"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label for="email-address-icon" class="flex items-center gap-2">
             Your Email:
           </label>
           <input
@@ -171,10 +177,7 @@ async function handleSubmit() {
         </div>
         <!-- Password -->
         <div class="mb-5 flex-1">
-          <label
-            for="password-icon"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label for="password-icon" class="flex items-center gap-2">
             Your Password:
           </label>
           <div class="flex items-center justify-between gap-2">
@@ -201,10 +204,7 @@ async function handleSubmit() {
         </div>
         <!-- Address -->
         <div class="mb-5 flex-1">
-          <label
-            for="location"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label for="location" class="flex items-center gap-2">
             Your Location:
           </label>
           <input
@@ -218,10 +218,7 @@ async function handleSubmit() {
         </div>
         <!-- Position -->
         <div class="mb-5 flex-1">
-          <label
-            for="position"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label for="position" class="flex items-center gap-2">
             Your Position:
           </label>
           <select
@@ -234,16 +231,15 @@ async function handleSubmit() {
           </select>
         </div>
         <div class="w-full flex justify-end gap-2">
-          <button type="reset" class="btn btn-warning btn-soft">
-            <RotateCw class="w-4 h-4" />
-            Reset
-          </button>
           <button type="submit" class="btn btn-primary">
             Register
             <SendHorizontal class="w-4 h-4" />
           </button>
         </div>
       </form>
+    </div>
+    <div class="max-w-lg hidden md:block">
+      <img :src="banner" alt="banner-login" />
     </div>
   </div>
 </template>

@@ -114,7 +114,7 @@ onMounted(() => {
           <div
             class="sm:w-1/3 px-10 py-4 bg-warning md:font-bold rounded-full text-base-300 w-full"
           >
-            <h2 class="text-sm font-bold">
+            <h2 class="text-sm font-bold text-nowrap">
               Grand-Total : ${{ cartStore.grandTotal.toLocaleString() }}
             </h2>
           </div>

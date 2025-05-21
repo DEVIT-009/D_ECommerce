@@ -37,7 +37,7 @@ const dataFilter = computed(() => {
     <CardPhone
       v-if="!_brand"
       v-for="product in state.products.slice(0, limit || state.products.length)"
-      :key="product.id"
+      :key="product.product_id"
       :product="product"
       :showAddCart="props._showAddCart"
     />

@@ -1,45 +1,79 @@
 <script setup>
 // Style
-import { File } from "lucide-vue-next";
+import { Check, File, Pencil } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 // Pinia
 import { useUserStore } from "../stores/userData.js";
 // Library
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 // Service API
 import { usePatchUser } from "../services/userService.js";
 
 const { state: userState, patchUser } = usePatchUser();
 const toast = useToast();
 const userStore = useUserStore();
-const isEdit = ref(false);
+
+// Individual edit states for each field
+const editStates = reactive({
+  first_name: false,
+  last_name: false,
+  company: false,
+  location: false,
+});
 
 const formState = reactive({
-  f_name: userStore.f_name,
-  l_name: userStore.l_name,
+  first_name: userStore.first_name,
+  last_name: userStore.last_name,
   company: userStore.company,
   location: userStore.location,
 });
 
-async function handleSubmit() {
-  // Check if formState has changes
-  const hasChanges = Object.keys(formState).some(
-    (key) => formState[key] !== userStore[key]
-  );
-
-  if (!hasChanges) {
+async function handleSubmit(field) {
+  // Check if the specific field has changes
+  if (formState[field] === userStore[field]) {
+    editStates[field] = false;
     return;
   }
 
-  // Patching data
-  await patchUser(userStore.id, formState);
+  // Create patch data with only the changed field
+  const patchData = {
+    [field]: formState[field],
+  };
 
-  if (!userState.error) {
-    userStore.setID(userState.id);
-    userStore.setUserData(formState);
-    toast.success("Update successfully...");
-    isEdit.value = false;
+  // Patching data
+  console.log(userStore.user_id);
+
+  await patchUser(userStore.user_id, patchData);
+
+  if (!userState.error && !userState.isLoading) {
+    // Use the appropriate setter based on the field
+    switch (field) {
+      case "first_name":
+        userStore.setFirstName(formState[field]);
+        break;
+      case "last_name":
+        userStore.setLastName(formState[field]);
+        break;
+      case "company":
+        userStore.setCompany(formState[field]);
+        break;
+      case "location":
+        userStore.setLocation(formState[field]);
+        break;
+    }
+    toast.success(
+      `${field.replace("_", " ").toUpperCase()} Updated successfully...`
+    );
+    editStates[field] = false;
+  }
+}
+
+function toggleEdit(field) {
+  editStates[field] = !editStates[field];
+  if (!editStates[field]) {
+    // Reset the field value if canceling edit
+    formState[field] = userStore[field];
   }
 }
 </script>
@@ -56,11 +90,7 @@ async function handleSubmit() {
     <!-- information -->
     <div class="md:w-1/2 w-full">
       <h2 class="text-5xl p-5 font-bold">Profile</h2>
-      <form
-        @submit.prevent="handleSubmit"
-        action=""
-        class="flex md:flex-col flex-wrap gap-4 my-4 px-5"
-      >
+      <div class="flex md:flex-col flex-wrap gap-4 my-4 px-5">
         <!-- First Name -->
         <div class="flex flex-1 min-w-56 flex-col gap-2">
           <label
@@ -70,15 +100,31 @@ async function handleSubmit() {
             <File size="25" />
             First Name
           </label>
-          <input
-            type="text"
-            id="fName"
-            placeholder="First Name"
-            v-model="formState.f_name"
-            class="input w-full"
-            :disabled="!isEdit"
-            required
-          />
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="fName"
+              placeholder="First Name"
+              v-model="formState.first_name"
+              class="input w-full"
+              :disabled="!editStates.first_name"
+              required
+            />
+            <button
+              v-if="!editStates.first_name"
+              @click="toggleEdit('first_name')"
+              class="btn btn-warning btn-soft"
+            >
+              <Pencil size="17" />
+            </button>
+            <button
+              v-else
+              @click="handleSubmit('first_name')"
+              class="btn btn-accent btn-soft"
+            >
+              <Check size="17" />
+            </button>
+          </div>
         </div>
         <!-- Last Name -->
         <div class="flex flex-1 min-w-56 flex-col gap-2">
@@ -89,15 +135,31 @@ async function handleSubmit() {
             <File size="25" />
             Last Name
           </label>
-          <input
-            type="text"
-            id="lName"
-            placeholder="Last Name"
-            v-model="formState.l_name"
-            class="input w-full"
-            :disabled="!isEdit"
-            required
-          />
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="lName"
+              placeholder="Last Name"
+              v-model="formState.last_name"
+              class="input w-full"
+              :disabled="!editStates.last_name"
+              required
+            />
+            <button
+              v-if="!editStates.last_name"
+              @click="toggleEdit('last_name')"
+              class="btn btn-warning btn-soft"
+            >
+              <Pencil size="17" />
+            </button>
+            <button
+              v-else
+              @click="handleSubmit('last_name')"
+              class="btn btn-accent btn-soft"
+            >
+              <Check size="17" />
+            </button>
+          </div>
         </div>
         <!-- Company -->
         <div class="flex flex-1 min-w-56 flex-col gap-2">
@@ -108,14 +170,30 @@ async function handleSubmit() {
             <File size="25" />
             Company
           </label>
-          <input
-            type="text"
-            id="company"
-            placeholder="Company"
-            v-model="formState.company"
-            class="input w-full"
-            :disabled="!isEdit"
-          />
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="company"
+              placeholder="Company"
+              v-model="formState.company"
+              class="input w-full"
+              :disabled="!editStates.company"
+            />
+            <button
+              v-if="!editStates.company"
+              @click="toggleEdit('company')"
+              class="btn btn-warning btn-soft"
+            >
+              <Pencil size="17" />
+            </button>
+            <button
+              v-else
+              @click="handleSubmit('company')"
+              class="btn btn-accent btn-soft"
+            >
+              <Check size="17" />
+            </button>
+          </div>
         </div>
         <!-- Location -->
         <div class="flex flex-1 min-w-56 flex-col gap-2">
@@ -126,31 +204,36 @@ async function handleSubmit() {
             <File size="25" />
             Location
           </label>
-          <input
-            type="text"
-            id="location"
-            placeholder="st-2004/Phnome Penh"
-            v-model="formState.location"
-            class="input w-full"
-            :disabled="!isEdit"
-            required
-          />
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="location"
+              placeholder="st-2004/Phnome Penh"
+              v-model="formState.location"
+              class="input w-full"
+              :disabled="!editStates.location"
+              required
+            />
+            <button
+              v-if="!editStates.location"
+              @click="toggleEdit('location')"
+              class="btn btn-warning btn-soft"
+            >
+              <Pencil size="17" />
+            </button>
+            <button
+              v-else
+              @click="handleSubmit('location')"
+              class="btn btn-accent btn-soft"
+            >
+              <Check size="17" />
+            </button>
+          </div>
         </div>
-        <button
-          type="submit"
-          class="btn btn-lg btn-primary px-10 w-full"
-          v-if="isEdit"
-        >
-          Done
-        </button>
-        <button
-          class="btn btn-lg btn-warning px-10 w-full"
-          @click="isEdit = !isEdit"
-          v-if="!isEdit"
-        >
-          Edit
-        </button>
-      </form>
+        <RouterLink to="/manage-account" class="btn btn-accent">
+          Manage Account
+        </RouterLink>
+      </div>
     </div>
     <!-- Profile -->
     <div class="md:w-1/2 w-full flex items-center justify-center flex-col">
@@ -162,7 +245,7 @@ async function handleSubmit() {
       >
         <div
           :class="`${
-            userStore.isActive ? 'ring-success' : 'ring-red-700'
+            userStore.isActive ? 'ring-accent' : 'ring-red-700'
           } ring-offset-base-100 rounded-full ring ring-offset-2 w-full`"
         >
           <img
@@ -175,9 +258,9 @@ async function handleSubmit() {
       <div
         class="mt-4 w-full max-w-100 bg-base-300 text-center py-4 rounded-lg"
       >
-        <h1 class="text-3xl uppercase font-bold text-success">
-          {{ userStore.f_name }}
-          {{ userStore.l_name }}
+        <h1 class="text-3xl uppercase font-bold text-accent">
+          {{ userStore.first_name }}
+          {{ userStore.last_name }}
         </h1>
       </div>
     </div>

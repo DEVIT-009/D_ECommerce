@@ -1,4 +1,4 @@
-export { default as Admin_Home } from "./Home.vue";
+export { default as Dashboard } from "./Dashboard.vue";
 
 export { default as Prod_Display } from "./Prod_Display.vue";
 export { default as Prod_Add } from "./Prod_Add.vue";

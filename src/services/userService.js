@@ -1,26 +1,33 @@
 import { reactive } from "vue";
 import axios from "axios";
+import config from "../supabase/supabaseConfig";
 
-const userUrl = import.meta.env.VITE_API_URL + "/users";
+const userUrl = import.meta.env.VITE_SUPABASE_URL + "/rest/v1/users";
 // const userUrl = "/user" + "/users";
+
 const state = reactive({
   users: [],
   isLoading: false,
-  error: "",
+  error: null,
 });
 
 // GET
 function useGetUser() {
   const getUser = async () => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      const response = await axios.get(userUrl);
+      const response = await axios.get(userUrl, {
+        ...config,
+        params: {
+          select: "*",
+          order: "user_id.asc",
+        },
+      });
       state.users = response.data;
-      state.error = false;
     } catch (err) {
-      state.error = "Failed getting users";
-      console.error("Error during fetching data : ", err);
+      state.error = err.message || "Failed to fetch users";
+      console.error("Error fetching users:", err);
     } finally {
       state.isLoading = false;
     }
@@ -34,13 +41,19 @@ function useGetUser() {
 function useGetOneUser() {
   const getOneUser = async (id) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      const res = await axios.get(`${userUrl}/${id}`);
-      state.users = res.data;
-    } catch (error) {
-      state.error = "Fail Getting user...";
-      console.error("Cannot getting data id, Error: ", err);
+      const response = await axios.get(userUrl, {
+        ...config,
+        params: {
+          user_id: `eq.${id}`,
+          select: "*",
+        },
+      });
+      state.users = response.data;
+    } catch (err) {
+      state.error = err.message || "Failed to get user";
+      console.error("Error getting user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -52,13 +65,19 @@ function useGetOneUser() {
 function usePostUser() {
   const postUser = async (userState) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      const response = await axios.post(`${userUrl}`, userState);
+      const response = await axios.post(userUrl, userState, {
+        ...config,
+        headers: {
+          ...config.headers,
+          Prefer: "return=representation",
+        },
+      });
       state.users = response.data;
     } catch (err) {
-      state.error = "Fail Add user...";
-      console.error("Error during Post data : ", err);
+      state.error = err.message || "Failed to add user";
+      console.error("Error adding user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -71,18 +90,22 @@ function usePostUser() {
 function usePatchUser() {
   const patchUser = async (id, patchData) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      // Get data
-      const { data } = await axios.get(`${userUrl}/${id}`);
-      // merge data from get method with single change data
-      const mergeData = { ...data, ...patchData };
-      // Assign data with put method
-      const response = await axios.put(`${userUrl}/${id}`, mergeData);
-      state.id = response.data.id;
+      const response = await axios.patch(userUrl, patchData, {
+        ...config,
+        params: {
+          user_id: `eq.${id}`,
+        },
+        headers: {
+          ...config.headers,
+          Prefer: "return=representation",
+        },
+      });
+      state.users = response.data;
     } catch (err) {
-      state.error = "Fail Update user...";
-      console.error("Error during Put data : ", err);
+      state.error = err.message || "Failed to update user";
+      console.error("Error updating user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -95,12 +118,17 @@ function usePatchUser() {
 function useDeleteUser() {
   const deleteUser = async (id) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      await axios.delete(`${userUrl}/${id}`);
+      await axios.delete(userUrl, {
+        ...config,
+        params: {
+          user_id: `eq.${id}`,
+        },
+      });
     } catch (err) {
-      state.error = "Fail Delete user...";
-      console.error("Error during Delete data : ", err);
+      state.error = err.message || "Failed to delete user";
+      console.error("Error deleting user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -112,19 +140,25 @@ function useDeleteUser() {
 function useCheckUser() {
   const checkUser = async (filters) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      const response = await axios.get(userUrl, { params: filters });
+      const response = await axios.get(userUrl, {
+        ...config,
+        params: {
+          ...filters,
+          select: "*",
+        },
+      });
       const data = response.data;
 
       if (data.length > 0) {
-        state.users = data[0];
+        state.users = data;
       } else {
         state.error = "User not found...";
       }
     } catch (err) {
-      state.error = "User not found...";
-      console.log(err.message || "Failed to fetch users");
+      state.error = err.message || "Failed to check user";
+      console.error("Error checking user:", err);
     } finally {
       state.isLoading = false;
     }

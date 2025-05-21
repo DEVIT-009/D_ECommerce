@@ -1,6 +1,6 @@
 <script setup>
 import { Eye, EyeOff, RotateCw } from "lucide-vue-next";
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import { useUserStore } from "../stores/userData.js";
 import { usePatchUser } from "../services/userService.js";
 import {
@@ -10,50 +10,38 @@ import {
 import { useToast } from "vue-toastification";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
+// Environment variables
+const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_IMG_URL;
+
 const userStore = useUserStore();
 const { state: userState, patchUser } = usePatchUser();
 const { uploadCloudinary } = useUploadCloudinary();
 const toast = useToast();
 
-// Reactive state for profile form
+// info initial information
 const userInfo = reactive({
-  f_name: userStore.f_name,
-  l_name: userStore.l_name,
-  company: userStore.company,
+  first_name: userStore.first_name,
+  last_name: userStore.last_name,
   location: userStore.location,
   phone: userStore.phone,
+  company: userStore.company,
 });
-
-// Reactive state for profile image
-const image = reactive({
-  raw: null,
-  profile: userStore.image || userStore.imgDefault,
-});
-
-// Environment variables
-const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_IMG_URL;
-
-// Reactive state for password form
+// initial password
 const passwords = reactive({
   current: userStore.password,
   new: "",
   confirm: "",
 });
-
-// Reactive state for password visibility toggles
-const passwordShow = reactive({
-  current: false,
-  new: false,
-  confirm: false,
+// initial profile image
+const image = reactive({
+  raw: null,
+  profile: userStore.image || userStore.imgDefault,
 });
-
-// Loading state
-const isLoading = ref(false);
 
 // Reset profile form to original values
 function resetProfileForm() {
-  userInfo.firstName = userStore.f_name;
-  userInfo.lastName = userStore.l_name;
+  userInfo.first_name = userStore.first_name;
+  userInfo.last_name = userStore.last_name;
   userInfo.company = userStore.company;
   userInfo.location = userStore.location;
   userInfo.phone = userStore.phone;
@@ -75,32 +63,37 @@ function handleChangeImage(e) {
 // Handle profile info update
 async function handleUpdateInfo() {
   // Check if form has no changes
-  if (
-    userInfo.f_name == userStore.f_name &&
-    userInfo.l_name == userStore.l_name &&
-    userInfo.company == userStore.company &&
-    userInfo.location == userStore.location &&
-    userInfo.phone == userStore.phone
-  ) {
+  const hasChanges =
+    userInfo.first_name !== userStore.first_name ||
+    userInfo.last_name !== userStore.last_name ||
+    userInfo.company !== userStore.company ||
+    userInfo.location !== userStore.location ||
+    userInfo.phone !== userStore.phone;
+
+  if (!hasChanges) {
+    toast.info("No changes to update");
     return;
   }
 
   //Update user info
-  await patchUser(userStore.id, {
-    f_name: userInfo.f_name,
-    l_name: userInfo.l_name,
+  await patchUser(userStore.user_id, {
+    first_name: userInfo.first_name,
+    last_name: userInfo.last_name,
     company: userInfo.company,
     location: userInfo.location,
     phone: userInfo.phone,
   });
 
   if (!userState.error && !userState.isLoading) {
-    userStore.setUserData(userInfo);
+    userStore.setFirstName(userInfo.first_name);
+    userStore.setLastName(userInfo.last_name);
+    userStore.setCompany(userInfo.company);
+    userStore.setLocation(userInfo.location);
     userStore.setPhone(userInfo.phone);
     toast.success("User info updated successfully");
   } else {
     toast.error("Failed to update user info");
-    console.log(userState.error);
+    console.error("Update error:", userState.error);
   }
 }
 
@@ -116,7 +109,7 @@ async function handleUpdateProfile() {
 
   // Update user profile image
   if (imgState.imgUrl && !imgState.isLoading && !imgState.error) {
-    await patchUser(userStore.id, {
+    await patchUser(userStore.user_id, {
       image: imgState.imgUrl,
     });
 
@@ -148,7 +141,7 @@ async function handleUpdatePassword() {
   }
 
   // Update user password
-  await patchUser(userStore.id, {
+  await patchUser(userStore.user_id, {
     password: passwords.new,
   });
 
@@ -166,6 +159,130 @@ async function handleUpdatePassword() {
   passwords.new = "";
   passwords.confirm = "";
 }
+
+// Display data
+const infoData = reactive([
+  {
+    label: "First Name",
+    get value() {
+      return userInfo.first_name;
+    },
+    set value(val) {
+      userInfo.first_name = val;
+    },
+    inpName: "first_name",
+    inpId: "first-name",
+    inpType: "text",
+    required: true,
+    placeholder: " ",
+  },
+  {
+    label: "Last Name",
+    get value() {
+      return userInfo.last_name;
+    },
+    set value(val) {
+      userInfo.last_name = val;
+    },
+    inpName: "last_name",
+    inpId: "last-name",
+    inpType: "text",
+    required: true,
+    placeholder: " ",
+  },
+  {
+    label: "Location",
+    get value() {
+      return userInfo.location;
+    },
+    set value(val) {
+      userInfo.location = val;
+    },
+    inpName: "location",
+    inpId: "location",
+    inpType: "text",
+    required: true,
+    placeholder: " ",
+  },
+  {
+    label: "Phone Number",
+    get value() {
+      return userInfo.phone;
+    },
+    set value(val) {
+      userInfo.phone = val;
+    },
+    inpName: "phone",
+    inpId: "phone",
+    inpType: "tel",
+    required: true,
+    placeholder: " ",
+  },
+  {
+    label: "Company",
+    get value() {
+      return userInfo.company;
+    },
+    set value(val) {
+      userInfo.company = val;
+    },
+    inpName: "company",
+    inpId: "company",
+    inpType: "text",
+    required: true,
+    placeholder: " ",
+  },
+]);
+const passwordData = reactive([
+  {
+    label: "Current Password",
+    get value() {
+      return passwords.current;
+    },
+    set value(val) {
+      passwords.current = val;
+    },
+    inpName: "current",
+    inpId: "current",
+    inpType: false,
+    required: true,
+    placeholder: " ",
+    disabled: true,
+    autocomplete: "current-password",
+  },
+  {
+    label: "New Password",
+    get value() {
+      return passwords.new;
+    },
+    set value(val) {
+      passwords.new = val;
+    },
+    inpName: "new",
+    inpId: "new",
+    inpType: false,
+    required: true,
+    placeholder: " ",
+    disabled: false,
+    autocomplete: "new-password",
+  },
+  {
+    label: "Confirm New Password",
+    get value() {
+      return passwords.confirm;
+    },
+    set value(val) {
+      passwords.confirm = val;
+    },
+    inpName: "confirm",
+    inpId: "confirm",
+    inpType: false,
+    required: true,
+    placeholder: " ",
+    disabled: false,
+    autocomplete: "new-password",
+  },
+]);
 </script>
 <template>
   <div class="min-h-screen bg-base-100 text-white mt-4">
@@ -199,72 +316,30 @@ async function handleUpdatePassword() {
               <div
                 class="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4"
               >
-                <!-- First Name Input -->
-                <div>
-                  <label for="first-name" class="block mb-1 text-sm"
-                    >First Name</label
-                  >
+                <!-- info data : First name, Last Name, Location, Phone Number, Company -->
+                <div
+                  class="relative z-0 w-full mb-5 group"
+                  v-for="data in infoData"
+                >
                   <input
-                    id="first-name"
-                    type="text"
-                    required
-                    v-model="userInfo.f_name"
-                    class="input w-full"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer disabled:opacity-50 disabled:cursor-not-allowed"
+                    v-model="data.value"
+                    :type="data.inpType"
+                    :name="data.inpName"
+                    :id="data.inpId"
+                    :required="data.required"
+                    :disabled="data.disabled"
+                    :placeholder="data.placeholder"
                   />
-                </div>
-                <!-- Last Name Input -->
-                <div>
-                  <label for="last-name" class="block mb-1 text-sm"
-                    >Last Name</label
+                  <label
+                    :for="data.inpId"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                  <input
-                    id="last-name"
-                    type="text"
-                    required
-                    v-model="userInfo.l_name"
-                    class="input w-full"
-                  />
-                </div>
-                <!-- Location Input -->
-                <div>
-                  <label for="location" class="block mb-1 text-sm"
-                    >Location</label
-                  >
-                  <input
-                    id="location"
-                    type="text"
-                    required
-                    v-model="userInfo.location"
-                    class="input w-full"
-                  />
-                </div>
-                <!-- Phone Number Input -->
-                <div>
-                  <label for="phone" class="block mb-1 text-sm"
-                    >Phone Number</label
-                  >
-                  <input
-                    id="phone"
-                    type="tel"
-                    required
-                    v-model="userInfo.phone"
-                    class="input w-full"
-                  />
-                </div>
-                <!-- Company Input -->
-                <div>
-                  <label for="company" class="block mb-1 text-sm"
-                    >Company</label
-                  >
-                  <input
-                    id="company"
-                    type="text"
-                    v-model="userInfo.company"
-                    class="input w-full"
-                  />
+                    {{ data.label }}
+                  </label>
                 </div>
               </div>
-
+              <!-- Submit info user -->
               <div class="mt-4 w-full">
                 <button type="submit" class="btn btn-accent w-full">
                   Update Information
@@ -277,74 +352,40 @@ async function handleUpdatePassword() {
           <div class="border border-accent rounded-lg p-6 dark:bg-base-300">
             <h2 class="text-xl font-semibold mb-4">Change Password</h2>
             <form class="w-full" @submit.prevent="handleUpdatePassword">
+              <!-- Hidden username field for password managers -->
+              <input
+                type="text"
+                name="username"
+                :value="userStore.email"
+                autocomplete="username"
+                class="hidden"
+              />
               <div
                 class="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4"
               >
-                <!-- Current Password -->
-                <div>
-                  <label class="block mb-1 text-sm">Current Password</label>
-                  <div class="relative">
-                    <input
-                      :type="passwordShow.current ? 'text' : 'password'"
-                      v-model="passwords.current"
-                      class="input w-full"
-                      disabled
-                      required
-                    />
-                    <button
-                      type="button"
-                      @click="passwordShow.current = !passwordShow.current"
-                      class="absolute z-10 inset-y-0 right-3 text-gray-400 cursor-pointer"
-                    >
-                      <Eye
-                        v-if="passwordShow.current"
-                        class="cursor-pointer h-5 w-5"
-                      />
-                      <EyeOff v-else class="cursor-pointer h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-                <!-- New Password -->
-                <div>
-                  <label class="block mb-1 text-sm">New Password</label>
-                  <div class="relative">
-                    <input
-                      :type="passwordShow.new ? 'text' : 'password'"
-                      v-model="passwords.new"
-                      placeholder="example123"
-                      class="input w-full"
-                      required
-                    />
-                    <button
-                      type="button"
-                      @click="passwordShow.new = !passwordShow.new"
-                      class="absolute z-10 inset-y-0 right-3 text-gray-400 cursor-pointer"
-                    >
-                      <Eye v-if="passwordShow.new" class="h-5 w-5" />
-                      <EyeOff v-else class="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-                <!-- Confirm New Password -->
-                <div>
-                  <label class="block mb-1 text-sm">Confirm New Password</label>
-                  <div class="relative">
-                    <input
-                      :type="passwordShow.confirm ? 'text' : 'password'"
-                      v-model="passwords.confirm"
-                      placeholder="example123"
-                      class="input w-full"
-                      required
-                    />
-                    <button
-                      type="button"
-                      @click="passwordShow.confirm = !passwordShow.confirm"
-                      class="absolute z-10 inset-y-0 right-3 text-gray-400"
-                    >
-                      <Eye v-if="passwordShow.confirm" class="h-5 w-5" />
-                      <EyeOff v-else class="h-5 w-5" />
-                    </button>
-                  </div>
+                <!-- Current, New, Confirm Password -->
+                <div
+                  class="relative z-0 w-full mb-5 group"
+                  v-for="data in passwordData"
+                  :key="data.label"
+                >
+                  <input
+                    v-model="data.value"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer disabled:opacity-50 disabled:cursor-not-allowed"
+                    :id="data.inpId"
+                    :name="data.inpName"
+                    :type="data.inpType ? 'text' : 'password'"
+                    :required="data.required"
+                    :disabled="data.disabled"
+                    :placeholder="data.placeholder"
+                    :autocomplete="data.autocomplete"
+                  />
+                  <label
+                    :for="data.inpId"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    {{ data.label }}
+                  </label>
                 </div>
               </div>
               <button

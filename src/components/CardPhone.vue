@@ -31,13 +31,13 @@ function handleAddToCart() {
       <img :src="product.image" :alt="'Phone-' + product.name" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{ product.name }}</h2>
+      <h2 class="card-title">{{ product.product_name }}</h2>
       <p class="text-white/80 text-sm">
         {{ product.description.substring(0, 45) }}...
       </p>
       <div class="card-actions justify-start">
         <RouterLink
-          :to="`/products/${product.id}`"
+          :to="`/products/${product.product_id}`"
           class="btn btn-primary btn-outline"
         >
           Details

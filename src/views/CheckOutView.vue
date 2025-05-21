@@ -26,7 +26,7 @@ const toast = useToast();
 const updateQuantity = async () => {
   await Promise.all(
     cartItems.value.map((item) =>
-      patchProd(item.id, {
+      patchProd(item.product_id, {
         quantity: item.quantity - (item.qty || 0),
       })
     )
@@ -40,6 +40,7 @@ const updateQuantity = async () => {
     toast.error(
       "Submit fail! there is an error please contact us for more information."
     );
+    console.log(state.error);
   }
 };
 </script>

@@ -8,7 +8,7 @@ const Toast = useToast();
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
-    cartItems: [], // [{ id, name, qty, quantity (max stock), ... }]
+    cartItems: [], // [{ product_id, product_name, qty, quantity (max stock), ... }]
     isDelivery: true, // default true
   }),
   actions: {
@@ -17,18 +17,20 @@ export const useCartStore = defineStore("cart", {
     },
     addToCart(product) {
       if (product.quantity == 0) {
-        Toast.error("This " + product.name + " is out of stock!", {
+        Toast.error("This " + product.product_name + " is out of stock!", {
           timeout: 1500,
           position: "bottom-right",
         });
         return;
       }
-      const existing = this.cartItems.find((item) => item.id == product.id);
+      const existing = this.cartItems.find(
+        (item) => item.product_id == product.product_id
+      );
       if (existing) {
         if (existing.qty < existing.quantity) {
           existing.qty++;
         } else {
-          Toast.error("This " + product.name + " is out of stock!", {
+          Toast.error("This " + product.product_name + " is out of stock!", {
             timeout: 1500,
             position: "bottom-right",
           });
@@ -38,14 +40,14 @@ export const useCartStore = defineStore("cart", {
           ...product,
           qty: 1, // first time added
         });
-        Toast.success("Added " + product.name + " to cart!", {
+        Toast.success("Added " + product.product_name + " to cart!", {
           timeout: 1500,
           position: "bottom-right",
         });
       }
     },
     removeOneFromCart(id) {
-      const item = this.cartItems.find((item) => item.id === id);
+      const item = this.cartItems.find((item) => item.product_id === id);
       if (item) {
         if (item.qty > 1) {
           item.qty--;
@@ -53,34 +55,34 @@ export const useCartStore = defineStore("cart", {
           // Optionally remove the item from cart if qty becomes 0
           Toast.error(
             "Removed " +
-              this.cartItems.find((i) => i.id == id).name +
+              this.cartItems.find((i) => i.product_id == id).product_name +
               " from cart!",
             {
               timeout: 1500,
               position: "bottom-right",
             }
           );
-          this.cartItems = this.cartItems.filter((i) => i.id !== id);
+          this.cartItems = this.cartItems.filter((i) => i.product_id !== id);
         }
       }
     },
     removeProdFromCart(id) {
       Toast.error(
         "Removed " +
-          this.cartItems.find((i) => i.id == id).name +
+          this.cartItems.find((i) => i.product_id == id).product_name +
           " from cart!",
         {
           timeout: 1500,
           position: "bottom-right",
         }
       );
-      this.cartItems = this.cartItems.filter((i) => i.id !== id);
+      this.cartItems = this.cartItems.filter((i) => i.product_id !== id);
     },
     setIsDelivery(value) {
       this.isDelivery = value;
     },
     getItemQty(id) {
-      const item = this.cartItems.find((i) => i.id === id);
+      const item = this.cartItems.find((i) => i.product_id === id);
       return item ? item.qty : 0;
     },
   },
@@ -90,8 +92,8 @@ export const useCartStore = defineStore("cart", {
     subTotalPrice: (state) =>
       state.cartItems.reduce((sum, item) => sum + item.qty * item.price, 0),
     grandTotal: (state) =>
-      state.subTotalPrice + state.taxValue + state.delivery,
-    delivery: (state) => {
+      state.subTotalPrice + state.taxValue + state.delivery_price,
+    delivery_price: (state) => {
       if (state.subTotalPrice === 0 || !state.isDelivery) return 0;
       else if (state.subTotalPrice < 1000) return 5;
       else if (state.subTotalPrice < 1500) return 10;

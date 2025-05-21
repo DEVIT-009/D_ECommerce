@@ -1,10 +1,10 @@
 <script setup>
 // Style Css
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
-import { Pen, RefreshCcw } from "lucide-vue-next";
+import { Pen, Pencil, RefreshCcw } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
 // Custom Hook
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import {
   useGetOneProd,
   usePutProd,
@@ -21,18 +21,42 @@ const toast = useToast();
 
 // Data temp for form
 const prodState = reactive({
+  product_id: null,
+  product_name: "",
+  brand: "",
+  price: 0,
+  storage: "",
+  ram: "",
+  color: "",
+  os: "",
+  chip: "",
+  battery: "",
+  display: "",
   camera: {
     rear: "",
     front: "",
   },
+  description: "",
+  release_date: "",
+  network: [],
+  dimensions: "",
+  weight: "",
+  image: "",
+  in_stock: true,
+  quantity: 0,
 });
 
 // get data in reactive
 onMounted(async () => {
   await getOneProd(id);
 
-  if (!state.isLoading && !state.error) {
-    Object.assign(prodState, state.products);
+  if (
+    !state.isLoading &&
+    !state.error &&
+    state.products &&
+    state.products.length > 0
+  ) {
+    Object.assign(prodState, state.products[0]);
   }
 });
 
@@ -42,19 +66,209 @@ function toggleNetwork(value) {
     ? prodState.network.push(value)
     : prodState.network.splice(index, 1);
 }
+
+// Handle image upload
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      prodState.image = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 // Update
 async function handleEdit() {
   // Check if the form has not changed
-  if (JSON.stringify(prodState) === JSON.stringify(state.products)) {
+  if (JSON.stringify(prodState) === JSON.stringify(state.products[0])) {
+    toast.warning("No changes detected");
     return;
   }
 
-  await putProd(id, prodState);
-
-  if (!state.isLoading && !state.error) {
-    toast.success("Data has been updated successfully...");
+  try {
+    await putProd(id, prodState);
+    if (!state.isLoading && !state.error) {
+      toast.success("Data has been updated successfully...");
+    }
+  } catch (error) {
+    toast.error("Failed to update product");
   }
 }
+
+// Data to Display by loop
+const dataDisplay = reactive([
+  {
+    label: "Product Name",
+    get value() {
+      return prodState.product_name;
+    },
+    set value(val) {
+      prodState.product_name = val;
+    },
+    inpName: "product_name",
+    inpId: "product-name",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Brand",
+    get value() {
+      return prodState.brand;
+    },
+    set value(val) {
+      prodState.brand = val;
+    },
+    inpName: "brand",
+    inpId: "brand",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Price",
+    get value() {
+      return prodState.price;
+    },
+    set value(val) {
+      prodState.price = val;
+    },
+    inpName: "price",
+    inpId: "price",
+    inpType: "number",
+    required: true,
+  },
+  {
+    label: "Storage",
+    get value() {
+      return prodState.storage;
+    },
+    set value(val) {
+      prodState.storage = val;
+    },
+    inpName: "storage",
+    inpId: "storage",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "RAM",
+    get value() {
+      return prodState.ram;
+    },
+    set value(val) {
+      prodState.ram = val;
+    },
+    inpName: "ram",
+    inpId: "ram",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Color",
+    get value() {
+      return prodState.color;
+    },
+    set value(val) {
+      prodState.color = val;
+    },
+    inpName: "color",
+    inpId: "color",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "OS",
+    get value() {
+      return prodState.os;
+    },
+    set value(val) {
+      prodState.os = val;
+    },
+    inpName: "os",
+    inpId: "os",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Chip",
+    get value() {
+      return prodState.chip;
+    },
+    set value(val) {
+      prodState.chip = val;
+    },
+    inpName: "chip",
+    inpId: "chip",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Battery",
+    get value() {
+      return prodState.battery;
+    },
+    set value(val) {
+      prodState.battery = val;
+    },
+    inpName: "battery",
+    inpId: "battery",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Display",
+    get value() {
+      return prodState.display;
+    },
+    set value(val) {
+      prodState.display = val;
+    },
+    inpName: "display",
+    inpId: "display",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Dimension",
+    get value() {
+      return prodState.dimensions;
+    },
+    set value(val) {
+      prodState.dimensions = val;
+    },
+    inpName: "dimensions",
+    inpId: "dimensions",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Weight",
+    get value() {
+      return prodState.weight;
+    },
+    set value(val) {
+      prodState.weight = val;
+    },
+    inpName: "weight",
+    inpId: "weight",
+    inpType: "text",
+    required: true,
+  },
+  {
+    label: "Quantity",
+    get value() {
+      return prodState.quantity;
+    },
+    set value(val) {
+      prodState.quantity = val;
+    },
+    inpName: "quantity",
+    inpId: "quantity",
+    inpType: "number",
+    required: true,
+  },
+]);
 </script>
 <template>
   <!-- Loading -->
@@ -64,275 +278,105 @@ async function handleEdit() {
   >
     <PulseLoader color="#ffffff" />
   </div>
-  <div class="p-6" v-else>
+  <div v-else>
     <!-- Show -->
-    <h1 class="text-2xl md:text-4xl p-4 rounded-lg bg-base-300">
+    <h1 class="text-2xl md:text-4xl p-8 rounded-lg bg-base-300 md:font-bold">
       Edit Product
     </h1>
     <form class="mx-auto mt-4" @submit.prevent="handleEdit">
       <div
-        class="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,_1fr))] gap-2"
+        class="w-full grid grid-cols-[repeat(auto-fit,minmax(230px,_1fr))] gap-2"
       >
-        <!-- Name -->
-        <div class="relative z-0 w-full mb-5 group">
+        <!-- Product Name, Brand, Price, Storage, RAM, Color, OS, Chip, Battery, Display, Dimension, Weight, Quantity -->
+        <div
+          class="relative z-0 w-full mb-5 group"
+          v-for="item in dataDisplay"
+          :key="item.label"
+        >
           <input
-            v-model="prodState.name"
-            type="name"
-            name="name"
-            id="name"
+            v-model="item.value"
+            :type="item.inpType"
+            :id="item.inpId"
+            :name="item.inpName"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
-            required
+            :required="item.required"
           />
           <label
-            for="name"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Name</label
-          >
-        </div>
-        <!-- Brand -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.brand"
-            type="brand"
-            name="brand"
-            id="brand"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="brand"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Brand</label
-          >
-        </div>
-        <!-- Price -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.price"
-            type="number"
-            name="price"
-            id="price"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="price"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Price</label
-          >
-        </div>
-        <!-- Storage -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.storage"
-            type="text"
-            name="storage"
-            id="storage"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="storage"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Storage</label
-          >
-        </div>
-        <!-- RAM -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.ram"
-            type="text"
-            name="ram"
-            id="ram"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="ram"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >RAM</label
-          >
-        </div>
-        <!-- Color -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.color"
-            type="text"
-            name="color"
-            id="color"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="color"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Color</label
-          >
-        </div>
-        <!-- OS -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.os"
-            type="text"
-            name="os"
-            id="os"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="os"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >OS</label
-          >
-        </div>
-        <!-- Chip -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.chip"
-            type="text"
-            name="chip"
-            id="chip"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="chip"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Chip</label
-          >
-        </div>
-        <!-- Battery -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.battery"
-            type="text"
-            name="battery"
-            id="battery"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="battery"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Battery</label
-          >
-        </div>
-        <!-- Display -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.display"
-            type="text"
-            name="display"
-            id="display"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="display"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Display</label
-          >
-        </div>
-        <!-- Release Date -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.releaseDate"
-            type="date"
-            name="releaseDate"
-            id="releaseDate"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="releaseDate"
+            :for="item.inpId"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Release Date
+            {{ item.label }}
           </label>
-        </div>
-        <!-- Dimension -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.dimensions"
-            type="text"
-            name="dimension"
-            id="dimension"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="dimension"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Dimension</label
-          >
-        </div>
-        <!-- Weight -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.weight"
-            type="text"
-            name="weight"
-            id="weight"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="weight"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Weight</label
-          >
-        </div>
-        <!-- Quantity -->
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            v-model="prodState.quantity"
-            type="number"
-            name="quantity"
-            id="quantity"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-            min="0"
-          />
-          <label
-            for="quantity"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Quantity</label
-          >
         </div>
       </div>
-      <!-- Instock & Network & Camera -->
-      <div class="flex flex-wrap justify-between items-start gap-2 mb-5">
-        <!-- Instock -->
+      <!-- Release date & Camera -->
+      <div class="grid sm:grid-cols-2 gap-2">
+        <!-- Release Date -->
         <fieldset
-          class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 flex-1"
+          class="fieldset bg-base-100 border-base-300 rounded-box border p-4 flex-1 flex flex-wrap min-w-64"
         >
-          <legend class="fieldset-legend">In Stock</legend>
-          <label class="label">
+          <legend class="fieldset-legend">Release Date</legend>
+          <div class="relative z-0 w-full mb-5 group">
             <input
-              type="checkbox"
-              v-model="prodState.inStock"
-              class="checkbox"
+              v-model="prodState.release_date"
+              type="date"
+              name="release_date"
+              id="release_date"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
             />
-            Available
-          </label>
+          </div>
         </fieldset>
+        <!-- Camera -->
+        <fieldset
+          class="fieldset bg-base-100 border-base-300 rounded-box border p-4 flex-1 flex flex-wrap min-w-64"
+        >
+          <legend class="fieldset-legend">Camera</legend>
+          <!-- Rear Camera -->
+          <div class="relative z-0 basis-[200px] flex-1 mb-5 group">
+            <input
+              v-model="prodState.camera.rear"
+              type="text"
+              name="rear_camera"
+              id="rear_camera"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="rear_camera"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Rear Camera
+            </label>
+          </div>
+          <!-- Front Camera -->
+          <div class="relative z-0 basis-[200px] flex-1 mb-5 group">
+            <input
+              v-model="prodState.camera.front"
+              type="text"
+              name="front_camera"
+              id="front_camera"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="front_camera"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Front Camera
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <!-- Network & In Stock -->
+      <div class="grid sm:grid-cols-2 gap-2">
         <!-- Network -->
         <fieldset
-          class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 flex-1 flex flex-wrap justify-between"
+          class="fieldset bg-base-100 border-base-300 rounded-box border p-4 flex-1 flex flex-wrap justify-between"
         >
           <legend class="fieldset-legend">Network</legend>
           <label class="label min-w-14 max-w-32 flex-1">
@@ -371,48 +415,42 @@ async function handleEdit() {
             3G
           </label>
         </fieldset>
-        <!-- Camera -->
+        <!-- In Stock -->
         <fieldset
-          class="fieldset bg-base-100 border-base-300 rounded-box border p-4 flex-1 flex flex-wrap min-w-64"
+          class="fieldset bg-base-100 border-base-300 rounded-box border p-4 flex-1 flex flex-wrap justify-between"
         >
-          <legend class="fieldset-legend">Camera</legend>
-          <!-- Rear Camera -->
-          <div class="relative z-0 basis-[200px] flex-1 mb-5 group">
+          <legend class="fieldset-legend">In Stock</legend>
+          <label class="label">
             <input
-              v-model="prodState.camera.rear"
-              type="text"
-              name="rearCamera"
-              id="rearCamera"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
+              type="checkbox"
+              v-model="prodState.in_stock"
+              class="checkbox"
             />
-            <label
-              for="rearCamera"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >Rear Camera</label
-            >
-          </div>
-          <!-- Front Camera -->
-          <div class="relative z-0 basis-[200px] flex-1 mb-5 group">
-            <input
-              v-model="prodState.camera.front"
-              type="text"
-              name="frontCamera"
-              id="frontCamera"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="frontCamera"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >Front Camera</label
-            >
-          </div>
+            Available
+          </label>
         </fieldset>
       </div>
-      <!-- Desctiption -->
+      <!-- Image Upload -->
+      <fieldset
+        class="fieldset max-md:col-span-2 bg-base-100 border-base-300 rounded-box border p-4 flex flex-wrap justify-between"
+      >
+        <legend class="fieldset-legend">Image</legend>
+        <div class="flex flex-col items-center gap-4 w-full">
+          <img
+            v-if="prodState.image"
+            :src="prodState.image"
+            alt="Product Image"
+            class="max-w-[200px] max-h-[200px] object-contain"
+          />
+          <input
+            type="file"
+            class="file-input"
+            @change="handleImageUpload"
+            accept="image/*"
+          />
+        </div>
+      </fieldset>
+      <!-- Description -->
       <div class="relative z-0 w-full mb-5 group">
         <textarea
           v-model="prodState.description"
@@ -429,19 +467,22 @@ async function handleEdit() {
           >Description</label
         >
       </div>
-      <!--  -->
-      <button type="submit" class="btn btn-warning font-bold px-10 mr-2">
-        <Pen class="w-4 h-4" /> Edit
-      </button>
-      <button
-        @click="Object.assign(prodState, state.products)"
-        type="button"
-        class="btn btn-error font-bold px-10"
-      >
-        <RefreshCcw class="w-4 h-4" /> Cencel
-      </button>
+      <!-- Buttons -->
+      <div class="flex justify-end">
+        <div class="flex gap-0 py-1">
+          <button
+            type="button"
+            @click="generateSampleData"
+            class="btn btn-primary px-20 btn-outline rounded-e-[0] rounded-s-full"
+          >
+            <RefreshCcw class="w-4 h-4" /> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary px-14 rounded-s-[0]">
+            Edit
+            <Pencil class="w-4 h-4" />
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
-
-<!-- image, rate -->

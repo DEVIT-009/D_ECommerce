@@ -9,8 +9,8 @@ const route = useRoute();
 const id = route.params.id;
 const { state, getOneUser } = useGetOneUser();
 const formState = reactive({
-  f_name: "",
-  l_name: "",
+  first_name: "",
+  last_name: "",
   company: "",
   location: "",
   phone: "",
@@ -27,7 +27,7 @@ onMounted(async () => {
   await getOneUser(id);
 
   if (!state.isLoading && !state.error) {
-    Object.assign(formState, state.users);
+    Object.assign(formState, state.users[0]);
   }
 });
 </script>
@@ -57,7 +57,7 @@ onMounted(async () => {
             type="text"
             id="fName"
             placeholder="First Name"
-            v-model="formState.f_name"
+            v-model="formState.first_name"
             class="input w-full"
             disabled
             required
@@ -76,7 +76,7 @@ onMounted(async () => {
             type="text"
             id="lName"
             placeholder="Last Name"
-            v-model="formState.l_name"
+            v-model="formState.last_name"
             class="input w-full"
             disabled
             required
@@ -196,8 +196,8 @@ onMounted(async () => {
         class="mt-4 w-full max-w-100 bg-base-300 text-center py-4 rounded-lg"
       >
         <h1 class="text-3xl uppercase font-bold text-primary">
-          {{ formState.f_name }}
-          {{ formState.l_name }}
+          {{ formState.first_name }}
+          {{ formState.last_name }}
         </h1>
       </div>
     </div>

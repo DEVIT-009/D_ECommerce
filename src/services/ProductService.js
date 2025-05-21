@@ -1,7 +1,8 @@
 import { reactive } from "vue";
 import axios from "axios";
+import config from "../supabase/supabaseConfig";
 
-const prodUrl = import.meta.env.VITE_API_URL + "/products";
+const prodUrl = import.meta.env.VITE_SUPABASE_URL + "/rest/v1/products";
 // const prodUrl = "/product" + "/products";
 
 const state = reactive({
@@ -10,37 +11,48 @@ const state = reactive({
   error: "",
 });
 
-// Get
+// Get all products
 function useGetProd() {
   async function getProd() {
     state.isLoading = true;
     try {
-      const response = await axios.get(prodUrl);
+      const response = await axios.get(prodUrl, {
+        ...config,
+        params: {
+          select: "*",
+          order: "product_id.asc",
+        },
+      });
       state.products = response.data;
     } catch (err) {
-      state.error = err.message || "Failed to fetch phones";
-      console.error("Cannot fetching data : ", err);
+      state.error = err.message || "Failed to fetch products";
+      console.error("Error fetching products:", err);
     } finally {
       state.isLoading = false;
     }
   }
 
   getProd();
-
   return { state, getProd };
 }
 
-// GET ONE
+// Get single product
 function useGetOneProd() {
-  const getOneProd = async (id) => {
+  const getOneProd = async (product_id) => {
     state.isLoading = true;
     state.error = "";
     try {
-      const res = await axios.get(`${prodUrl}/${id}`);
-      state.products = res.data;
-    } catch (error) {
-      state.error = err.message || "Failed to get phones by ID";
-      console.error("Cannot getting data id, Error: ", err);
+      const response = await axios.get(prodUrl, {
+        ...config,
+        params: {
+          product_id: `eq.${product_id}`,
+          select: "*",
+        },
+      });
+      state.products = response.data;
+    } catch (err) {
+      state.error = err.message || "Failed to get product";
+      console.error("Error getting product:", err);
     } finally {
       state.isLoading = false;
     }
@@ -48,17 +60,24 @@ function useGetOneProd() {
   return { state, getOneProd };
 }
 
-// POST
+// Add new product
 function usePostProd() {
   const postProd = async (prodAdd) => {
     state.isLoading = true;
     state.error = "";
     try {
-      const response = await axios.post(prodUrl, prodAdd);
+      const response = await axios.post(prodUrl, prodAdd, {
+        ...config,
+        headers: {
+          ...config.headers,
+          Prefer: "return=representation",
+        },
+      });
+      // Set state to only contain the new product
       state.products = response.data;
     } catch (err) {
-      console.error("Cannot Add data : ", err);
-      state.error = err.message || "Failed to Added(Post) product";
+      state.error = err.message || "Failed to add product";
+      console.error("Error adding product:", err);
     } finally {
       state.isLoading = false;
     }
@@ -67,16 +86,21 @@ function usePostProd() {
   return { state, postProd };
 }
 
-// DELETE
+// Delete product
 function useDeleteProd() {
-  const deleteProd = async (id) => {
+  const deleteProd = async (product_id) => {
     state.isLoading = true;
     state.error = "";
     try {
-      await axios.delete(`${prodUrl}/${id}`);
+      await axios.delete(prodUrl, {
+        ...config,
+        params: {
+          product_id: `eq.${product_id}`,
+        },
+      });
     } catch (err) {
-      state.error = err.message || "Failed to Delete products";
-      console.error("Cannot delete data : ", err);
+      state.error = err.message || "Failed to delete product";
+      console.error("Error deleting product:", err);
     } finally {
       state.isLoading = false;
     }
@@ -85,16 +109,27 @@ function useDeleteProd() {
   return { deleteProd };
 }
 
-// PUT
+// Update product
 function usePutProd() {
-  const putProd = async (id, dataUpdata) => {
+  const putProd = async (product_id, dataUpdate) => {
     state.isLoading = true;
     state.error = "";
     try {
-      await axios.put(`${prodUrl}/${id}`, dataUpdata);
+      const response = await axios.put(prodUrl, dataUpdate, {
+        ...config,
+        params: {
+          product_id: `eq.${product_id}`,
+        },
+        headers: {
+          ...config.headers,
+          Prefer: "return=representation",
+        },
+      });
+      // Set state to only contain the updated product
+      state.products = response.data;
     } catch (error) {
-      console.error("Cannot Update data : ", error);
-      state.error = error.message || "Failed to Update products";
+      console.error("Error updating product:", error);
+      state.error = error.message || "Failed to update product";
     } finally {
       state.isLoading = false;
     }
@@ -102,21 +137,27 @@ function usePutProd() {
   return { state, putProd };
 }
 
-// Patching Method using PUT to update quantity of Product
+// Update product quantity
 function usePatchProd() {
-  const patchProd = async (id, patchData) => {
+  const patchProd = async (product_id, patchData) => {
     state.isLoading = true;
     state.error = "";
     try {
-      // Get data
-      const { data } = await axios.get(`${prodUrl}/${id}`);
-      // merge data from get method with single change data
-      const mergeData = { ...data, ...patchData };
-      // Assign data with put method
-      await axios.put(`${prodUrl}/${id}`, mergeData);
+      const response = await axios.patch(prodUrl, patchData, {
+        ...config,
+        params: {
+          product_id: `eq.${product_id}`,
+        },
+        headers: {
+          ...config.headers,
+          Prefer: "return=representation",
+        },
+      });
+      // Set state to only contain the updated product
+      state.products = response.data;
     } catch (error) {
-      console.error("Cannot Update data : ", error);
-      state.error = "Failed to Update products";
+      console.error("Error updating product quantity:", error);
+      state.error = error.message || "Failed to update product quantity";
     } finally {
       state.isLoading = false;
     }

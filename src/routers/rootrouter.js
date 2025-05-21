@@ -27,7 +27,7 @@ import {
 } from "../pages/index.js";
 // Admin Site Page
 import {
-  Admin_Home,
+  Dashboard,
   // Product
   Prod_Display,
   Prod_Add,
@@ -104,8 +104,8 @@ const router = createRouter({
       children: [
         {
           path: "",
-          name: "admin-home",
-          component: Admin_Home,
+          name: "dashboard",
+          component: Dashboard,
         },
         {
           path: "product/display",

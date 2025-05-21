@@ -72,7 +72,7 @@ const handleUpdatePosition = async (id, userName, value) => {
 </script>
 <template>
   <div
-    class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700"
+    class="w-full p-4 border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-base-300 dark:border-gray-700"
   >
     <!-- Loading -->
     <div
@@ -122,7 +122,7 @@ const handleUpdatePosition = async (id, userName, value) => {
               <img
                 class="w-12 md:w-16 h-12 md:h-16 rounded-full object-cover"
                 :src="item.image || userStore.imgDefault"
-                :alt="`profile-img-${item.l_name}`"
+                :alt="`profile-img-${item.last_name}`"
               />
             </div>
             <!-- information -->
@@ -130,7 +130,7 @@ const handleUpdatePosition = async (id, userName, value) => {
               <p
                 class="text-sm font-medium text-gray-900 truncate dark:text-white"
               >
-                {{ item.f_name + " " + item.l_name }}
+                {{ item.first_name + " " + item.last_name }}
               </p>
               <p
                 class="text-sm w-fit text-gray-500 truncate dark:text-gray-400"
@@ -146,7 +146,7 @@ const handleUpdatePosition = async (id, userName, value) => {
               <!-- Position Ourse-->
               <div class="" v-if="isShowPosition">
                 <div
-                  v-if="item.id === userStore.id"
+                  v-if="item.user_id === userStore.user_id"
                   class="btn rounded-full btn-accent w-28 uppercase flex justify-between cursor-default"
                 >
                   {{ item.position }} <UserRound class="w-4 h-4" />
@@ -170,7 +170,11 @@ const handleUpdatePosition = async (id, userName, value) => {
                         <button
                           type="button"
                           @click="
-                            handleUpdatePosition(item.id, item.l_name, position)
+                            handleUpdatePosition(
+                              item.user_id,
+                              item.last_name,
+                              position
+                            )
                           "
                         >
                           Update to {{ position.toUpperCase() }}
@@ -184,9 +188,9 @@ const handleUpdatePosition = async (id, userName, value) => {
               <!-- Btn more -->
               <div class="" v-else>
                 <RouterLink
-                  :to="`/d-admin/user/${item.id}`"
+                  :to="`/d-admin/user/${item.user_id}`"
                   class="btn btn-accent rounded-full"
-                  v-if="item.id === userStore.id"
+                  v-if="item.user_id === userStore.user_id"
                 >
                   <UserRound class="w-4 h-4" />
                 </RouterLink>
@@ -205,12 +209,12 @@ const handleUpdatePosition = async (id, userName, value) => {
                     :style="`position-anchor: --anchor-${index + 1}`"
                   >
                     <li class="">
-                      <RouterLink :to="`/d-admin/user/${item.id}`"
-                        >Detail</RouterLink
-                      >
+                      <RouterLink :to="`/d-admin/user/${item.user_id}`">
+                        Detail
+                      </RouterLink>
                     </li>
                     <li class="text-error">
-                      <button type="button" @click="handleRemove(item.id)">
+                      <button type="button" @click="handleRemove(item.user_id)">
                         Remove
                       </button>
                     </li>

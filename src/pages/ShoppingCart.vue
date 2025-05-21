@@ -1,16 +1,21 @@
 <script setup>
-import { useCartStore } from "../stores/cartStore"; // adjust path if needed
+// cart store for managing cart state
+import { useCartStore } from "../stores/cartStore";
+// pinia utilities for reactivity
 import { storeToRefs } from "pinia";
+// components
 import GrandTotal from "../components/GrandTotal.vue";
+// Style
 import { Plus, Minus, X } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
+// router for navigation
 import rootrouter from "@/routers/rootrouter";
 
 const cartStore = useCartStore();
 const { cartItems } = storeToRefs(cartStore); // reactive reference
 
 function handleAdd(id) {
-  const product = cartStore.cartItems.find((item) => item.id === id);
+  const product = cartStore.cartItems.find((item) => item.product_id === id);
   if (product) {
     cartStore.addToCart(product);
   }
@@ -79,7 +84,7 @@ function handleGoToPayment() {
                 <button
                   class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                   type="button"
-                  @click="() => handleRemoveOne(product.id)"
+                  @click="() => handleRemoveOne(product.product_id)"
                 >
                   <Minus />
                 </button>
@@ -96,7 +101,7 @@ function handleGoToPayment() {
                 <button
                   class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                   type="button"
-                  @click="() => handleAdd(product.id)"
+                  @click="() => handleAdd(product.product_id)"
                 >
                   <Plus />
                 </button>
@@ -110,7 +115,7 @@ function handleGoToPayment() {
             </td>
             <td class="px-6 py-4">
               <button
-                @click="() => handleRemoveProd(product.id)"
+                @click="() => handleRemoveProd(product.product_id)"
                 class="btn btn-error btn-circle btn-soft"
               >
                 <X />
