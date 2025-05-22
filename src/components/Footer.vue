@@ -61,16 +61,16 @@ const customerService = [
     link: "/faq",
   },
   {
-    label: "Shipping Policy",
-    link: "/shipping",
+    label: "Shipping | Delivery Policy",
+    link: "/shipping-policy",
   },
   {
     label: "Returns & Refunds",
-    link: "/returns",
+    link: "/return-refund",
   },
   {
     label: "Privacy Policy",
-    link: "/privacy",
+    link: "/privacy-policy",
   },
 ];
 const contactInfo = [
@@ -81,7 +81,7 @@ const contactInfo = [
   },
   {
     label: "E-Mail",
-    link: "#",
+    link: "mailto:support@ecommerce.com",
     icon: Mail,
   },
   {

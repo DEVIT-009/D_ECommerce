@@ -17,6 +17,11 @@ import {
 import {
   Home,
   About,
+  Contact,
+  ShippingPolicy,
+  PrivacyPolicy,
+  ReturnRefund,
+  FAQ,
   Products,
   ProductDetail,
   ShoppingCart,
@@ -58,6 +63,31 @@ const router = createRouter({
           path: "about",
           name: "about",
           component: About,
+        },
+        {
+          path: "contact",
+          name: "contact",
+          component: Contact,
+        },
+        {
+          path: "shipping-policy",
+          name: "shippingPolicy",
+          component: ShippingPolicy,
+        },
+        {
+          path: "privacy-policy",
+          name: "privacy-policy",
+          component: PrivacyPolicy,
+        },
+        {
+          path: "faq",
+          name: "faq",
+          component: FAQ,
+        },
+        {
+          path: "return-refund",
+          name: "returnRefund",
+          component: ReturnRefund,
         },
         {
           path: "products/",
