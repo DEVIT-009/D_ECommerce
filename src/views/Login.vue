@@ -1,6 +1,6 @@
 <script setup>
 import banner from "../assets/banner.png";
-import { Mail, KeyRound, SendHorizontal, ListMinus } from "lucide-vue-next";
+import { SendHorizontal, ListMinus } from "lucide-vue-next";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 import { useToast } from "vue-toastification";

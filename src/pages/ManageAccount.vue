@@ -1,5 +1,5 @@
 <script setup>
-import { Eye, EyeOff, RotateCw } from "lucide-vue-next";
+import { RotateCw } from "lucide-vue-next";
 import { reactive } from "vue";
 import { useUserStore } from "../stores/userData.js";
 import { usePatchUser } from "../services/userService.js";
