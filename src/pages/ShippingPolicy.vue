@@ -18,7 +18,7 @@ const internationalShipping = [
 ];
 </script>
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="w-full">
     <h1 class="text-3xl font-bold mb-8">Shipping Policy</h1>
 
     <div class="space-y-6">

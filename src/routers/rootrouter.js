@@ -18,6 +18,7 @@ import {
   Home,
   About,
   Contact,
+  Sample,
   ShippingPolicy,
   PrivacyPolicy,
   ReturnRefund,
@@ -63,6 +64,11 @@ const router = createRouter({
           path: "about",
           name: "about",
           component: About,
+        },
+        {
+          path: "sample",
+          name: "sample",
+          component: Sample,
         },
         {
           path: "contact",
@@ -236,6 +242,10 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // Always scroll to top on route change
+    return { top: 0 };
+  },
 });
 
 export default router;

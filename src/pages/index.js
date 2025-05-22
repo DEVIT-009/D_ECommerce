@@ -8,6 +8,8 @@ export { default as PrivacyPolicy } from "./PrivacyPolicy.vue";
 export { default as FAQ } from "./FAQ.vue";
 export { default as ReturnRefund } from "./ReturnRefund.vue";
 
+export { default as Sample } from "./Sample.vue";
+
 export { default as ManageAccount } from "./ManageAccount.vue";
 export { default as ProductDetail } from "./ProductDetail.vue";
 export { default as ShoppingCart } from "./ShoppingCart.vue";

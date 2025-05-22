@@ -40,9 +40,7 @@ function handleGoToPayment() {
 </script>
 
 <template>
-  <section
-    class="max-w-7xl mx-auto w-full flex max-lg:flex-col-reverse gap-2 py-2"
-  >
+  <section class="w-full flex max-lg:flex-col-reverse gap-2">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg flex-1">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"

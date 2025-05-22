@@ -3,9 +3,9 @@ import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 </script>
 <template>
-  <div class="px-1">
-    <Header />
+  <Header />
+  <div class="px-2 py-4 max-w-7xl mx-auto">
     <router-view />
-    <Footer />
   </div>
+  <Footer />
 </template>

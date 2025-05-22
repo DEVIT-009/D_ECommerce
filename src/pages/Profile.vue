@@ -79,14 +79,14 @@ function toggleEdit(field) {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto w-full mt-2 flex max-md:flex-col-reverse">
-    <!-- Loading ... -->
-    <div
-      v-if="userState.isLoading"
-      class="fixed inset-0 flex items-center justify-center z-10 bg-base-300/5 backdrop-blur-[3px]"
-    >
-      <PulseLoader color="#ffffff" />
-    </div>
+  <!-- Loading ... -->
+  <div
+    v-if="userState.isLoading"
+    class="fixed inset-0 flex items-center justify-center z-10 bg-base-300/5 backdrop-blur-[3px]"
+  >
+    <PulseLoader color="#ffffff" />
+  </div>
+  <div class="w-full flex max-md:flex-col-reverse" v-else>
     <!-- information -->
     <div class="md:w-1/2 w-full">
       <h2 class="text-5xl p-5 font-bold">Profile</h2>

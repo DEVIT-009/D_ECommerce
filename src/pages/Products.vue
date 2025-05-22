@@ -1,7 +1,11 @@
 <script setup>
-import CardContainer from "@/components/CardContainer.vue";
-import { computed, ref } from "vue";
+// Css
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import { CornerDownRight, ChevronLeft } from "lucide-vue-next";
+// Component
+import CardContainer from "@/components/CardContainer.vue";
+// hook
+import { computed, ref } from "vue";
 // Service
 import { useGetProd } from "../services/ProductService.js";
 
@@ -22,7 +26,7 @@ function handleResetBrand() {
 }
 </script>
 <template>
-  <div class="max-w-7xl mx-auto">
+  <div class="w-full">
     <!-- Product All -->
     <div
       v-if="!eachBrand"

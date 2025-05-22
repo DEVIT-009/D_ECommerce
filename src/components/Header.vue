@@ -6,7 +6,7 @@ import ProfileCart from "./ProfileCart.vue";
 
 <template>
   <div
-    class="navbar bg-base-300/50 ring-1 ring-base-300 backdrop-blur-md shadow-md max-w-7xl mx-auto sticky top-0 z-100"
+    class="navbar bg-base-300/50 ring-1 ring-base-300 backdrop-blur-md shadow-md max-w-7xl w-full mx-auto sticky top-0 z-100"
   >
     <Nav class="w-fit" />
 

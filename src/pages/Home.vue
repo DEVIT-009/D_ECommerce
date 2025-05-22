@@ -3,7 +3,7 @@ import CardContainer from "../components/CardContainer.vue";
 import { CornerDownRight } from "lucide-vue-next";
 </script>
 <template>
-  <div class="max-w-7xl mx-auto my-2">
+  <div class="w-full">
     <RouterLink to="/products" class="btn md:btn-xl btn-primary">
       <CornerDownRight />
       OUR Products

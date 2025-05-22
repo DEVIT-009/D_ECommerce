@@ -285,7 +285,7 @@ const passwordData = reactive([
 ]);
 </script>
 <template>
-  <div class="min-h-screen bg-base-100 text-white mt-4">
+  <div class="w-full min-h-screen bg-base-100 text-white">
     <div class="max-w-7xl mx-auto w-full">
       <!-- Loading -->
       <div

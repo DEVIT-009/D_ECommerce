@@ -56,7 +56,7 @@ function handleAdd() {
 <template>
   <!-- Loading -->
   <div
-    class="mt-2 max-w-7xl mx-auto w-full flex justify-center max-md:flex-col gap-2"
+    class="w-full flex justify-center max-md:flex-col gap-2"
     v-if="getProd.isLoading"
   >
     <PulseLoader class="w-fit mx-auto py-10" color="white" />
