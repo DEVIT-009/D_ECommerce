@@ -117,7 +117,7 @@ const contactInfo = [
                 viewBox="0 0 50 50"
                 width="30px"
                 height="30px"
-                class="text-white hover:text-primary transition-colors"
+                class="text-base-content hover:text-primary transition-colors"
               >
                 <path fill="currentColor" :d="link.d" />
               </svg>
@@ -164,7 +164,7 @@ const contactInfo = [
               :key="info.label"
               class="flex items-center space-x-2"
             >
-              <component :is="info.icon" :class="`w-6 h-6 text-primary`" />
+              <component :is="info.icon" :class="`w-6 h-6 text-base-content`" />
               <a
                 :href="info.link"
                 target="_blank"
