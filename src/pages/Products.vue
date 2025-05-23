@@ -36,7 +36,7 @@ function handleResetBrand() {
     >
       <button
         @click="() => handleChangeBrand(brand)"
-        class="btn btn-xl md:btn-wide btn-primary"
+        class="btn btn-xl md:btn-wide btn-accent"
       >
         <CornerDownRight />
         Filter {{ brand.toUpperCase() }}
@@ -45,11 +45,19 @@ function handleResetBrand() {
     </div>
     <!-- Product One Brand -->
     <div v-else class="pt-4">
-      <div class="flex gap-1">
-        <button @click="handleResetBrand" type="button" class="btn btn-xl">
-          <ChevronLeft />
+      <div class="flex gap-1 items-center">
+        <button
+          @click="handleResetBrand"
+          type="button"
+          class="btn btn-lg btn-accent"
+        >
+          <ChevronLeft class="font-bold" />
         </button>
-        <h2 class="btn btn-xl px-10">{{ eachBrand }}</h2>
+        <h2
+          class="text-accent text-3xl px-4 rounded-full h-full animate-bounce font-bold"
+        >
+          Brand {{ eachBrand }}
+        </h2>
       </div>
       <CardContainer :_brand="eachBrand" />
     </div>

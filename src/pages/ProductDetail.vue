@@ -56,10 +56,10 @@ function handleAdd() {
 <template>
   <!-- Loading -->
   <div
-    class="w-full flex justify-center max-md:flex-col gap-2"
+    class="fixed inset-0 flex items-center justify-center z-10 bg-base-300/5 backdrop-blur-[3px] min-h-screen"
     v-if="getProd.isLoading"
   >
-    <PulseLoader class="w-fit mx-auto py-10" color="white" />
+    <PulseLoader color="#ffffff" />
   </div>
   <!-- Show data -->
   <div

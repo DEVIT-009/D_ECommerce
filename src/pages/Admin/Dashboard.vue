@@ -56,7 +56,7 @@ const dataTotal = [
     icon: Smartphone,
     link: "/d-admin/product/display",
     nameBtn: "View Products",
-    color: "primary",
+    color: "info",
   },
   {
     title: "Cart Items",
@@ -68,8 +68,9 @@ const dataTotal = [
     icon: ShoppingCart,
     link: "/cart",
     nameBtn: "View Cart",
-    color: "primary",
+    color: "info",
   },
+
   {
     title: "Total Stock",
     get total() {
@@ -80,7 +81,7 @@ const dataTotal = [
     icon: Package,
     link: "/d-admin/product/func",
     nameBtn: "Manage Stock",
-    color: "primary",
+    color: "info",
   },
   {
     title: "Total Users",
@@ -100,13 +101,13 @@ const btnQuickAction = [
     title: "Add New Product",
     icon: Plus,
     link: "/d-admin/product/add",
-    color: "primary",
+    color: "info",
   },
   {
     title: "Edit Products",
     icon: Edit,
     link: "/d-admin/product/func",
-    color: "primary",
+    color: "info",
   },
   {
     title: "Add New User",

@@ -7,6 +7,7 @@ export { default as ShippingPolicy } from "./ShippingPolicy.vue";
 export { default as PrivacyPolicy } from "./PrivacyPolicy.vue";
 export { default as FAQ } from "./FAQ.vue";
 export { default as ReturnRefund } from "./ReturnRefund.vue";
+export { default as FeedBack } from "./FeedBack.vue";
 
 export { default as Sample } from "./Sample.vue";
 

@@ -4,6 +4,7 @@ import Button from "./Button.vue";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../stores/userData.js";
 import rootrouter from "../routers/rootrouter.js";
+import { ShoppingCart } from "lucide-vue-next";
 
 const userStore = useUserStore();
 
@@ -13,28 +14,17 @@ function handleLogOut() {
 }
 
 const cartStore = useCartStore();
+
+
 </script>
 
 <template>
   <div class="w-fit navbar-end flex gap-4">
     <!-- Cart -->
     <div class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn cursor-default">
+      <div tabindex="0" role="button" class="btn btn-square btn-circle btn-soft btn-accent md:btn-lg cursor-default">
         <div class="indicator">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-            />
-          </svg>
+          <ShoppingCart />
           <span
             :class="`badge badge-sm -top-1 -right-2 bg-red-700 indicator-item ${
               cartStore.totalCount == 0 ? 'hidden' : ''
@@ -69,7 +59,7 @@ const cartStore = useCartStore();
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="avatar cursor-pointer">
         <div
-          class="ring-accent ring-offset-base-100 w-9 rounded-full ring-2 ring-offset-2"
+          class="ring-accent ring-offset-base-100 w-9 md:w-10 rounded-full ring-2 ring-offset-2"
         >
           <img :src="userStore.image || userStore.imgDefault" />
         </div>

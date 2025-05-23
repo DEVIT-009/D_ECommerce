@@ -7,7 +7,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
     <!-- Hero Section -->
     <section class="text-center mb-16">
       <h1
-        class="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+        class="text-5xl font-bold mb-6 bg-gradient-to-r from-info to-accent bg-clip-text text-transparent"
       >
         About Our E-Commerce Platform
       </h1>
@@ -41,7 +41,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
         <div
           class="bg-base-300 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
         >
-          <ShoppingBag class="w-12 h-12 text-primary mb-4" />
+          <ShoppingBag class="w-12 h-12 text-accent mb-4 animate-bounce" />
           <h3 class="text-xl font-semibold mb-3">Wide Selection</h3>
           <p class="text-base-content/70">
             Browse through thousands of products from trusted sellers
@@ -50,7 +50,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
         <div
           class="bg-base-300 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
         >
-          <Shield class="w-12 h-12 text-primary mb-4" />
+          <Shield class="w-12 h-12 text-accent mb-4 animate-bounce" />
           <h3 class="text-xl font-semibold mb-3">Secure Shopping</h3>
           <p class="text-base-content/70">
             Your security is our priority with advanced protection
@@ -59,7 +59,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
         <div
           class="bg-base-300 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
         >
-          <Truck class="w-12 h-12 text-primary mb-4" />
+          <Truck class="w-12 h-12 text-accent mb-4 animate-bounce" />
           <h3 class="text-xl font-semibold mb-3">Fast Delivery</h3>
           <p class="text-base-content/70">
             Quick and reliable shipping to your doorstep
@@ -68,7 +68,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
         <div
           class="bg-base-300 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
         >
-          <Headphones class="w-12 h-12 text-primary mb-4" />
+          <Headphones class="w-12 h-12 text-accent mb-4 animate-bounce" />
           <h3 class="text-xl font-semibold mb-3">24/7 Support</h3>
           <p class="text-base-content/70">
             Our dedicated team is always here to help you
@@ -82,7 +82,7 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
       <h2 class="text-3xl font-bold mb-8 text-center">Our Core Values</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-base-300 p-8 rounded-xl shadow-md">
-          <h3 class="text-2xl font-semibold mb-4 text-primary">
+          <h3 class="text-2xl font-semibold mb-4 text-accent animate-bounce">
             Quality First
           </h3>
           <p class="text-base-content/80">
@@ -92,14 +92,16 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
           </p>
         </div>
         <div class="bg-base-300 p-8 rounded-xl shadow-md">
-          <h3 class="text-2xl font-semibold mb-4 text-primary">Innovation</h3>
+          <h3 class="text-2xl font-semibold mb-4 text-accent animate-bounce">
+            Innovation
+          </h3>
           <p class="text-base-content/80">
             We continuously evolve our platform with cutting-edge technology to
             provide the best shopping experience possible.
           </p>
         </div>
         <div class="bg-base-300 p-8 rounded-xl shadow-md">
-          <h3 class="text-2xl font-semibold mb-4 text-primary">
+          <h3 class="text-2xl font-semibold mb-4 text-accent animate-bounce">
             Customer Focus
           </h3>
           <p class="text-base-content/80">
@@ -111,18 +113,27 @@ import { ShoppingBag, Shield, Truck, Headphones } from "lucide-vue-next";
     </section>
 
     <!-- Stats Section -->
-    <section class="bg-base-300 rounded-2xl p-8 shadow-lg">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <section class="">
+      <h2 class="text-3xl font-bold text-center mb-8">Our Achievements</h2>
+      <div
+        class="bg-base-300 rounded-2xl px-8 py-14 shadow-lg grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+      >
         <div>
-          <h3 class="text-4xl font-bold text-primary mb-2">10K+</h3>
+          <h3 class="text-4xl font-bold text-accent mb-2 animate-bounce">
+            10K+
+          </h3>
           <p class="text-base-content/80">Happy Customers</p>
         </div>
         <div>
-          <h3 class="text-4xl font-bold text-primary mb-2">50K+</h3>
+          <h3 class="text-4xl font-bold text-accent mb-2 animate-bounce">
+            50K+
+          </h3>
           <p class="text-base-content/80">Products Available</p>
         </div>
         <div>
-          <h3 class="text-4xl font-bold text-primary mb-2">24/7</h3>
+          <h3 class="text-4xl font-bold text-accent mb-2 animate-bounce">
+            24/7
+          </h3>
           <p class="text-base-content/80">Customer Support</p>
         </div>
       </div>

@@ -30,6 +30,7 @@ import {
   PaymentPay,
   Profile,
   ManageAccount,
+  FeedBack,
 } from "../pages/index.js";
 // Admin Site Page
 import {
@@ -61,6 +62,23 @@ const router = createRouter({
           component: Home,
         },
         {
+          path: "products/",
+          name: "products-view",
+          component: ProductView,
+          children: [
+            {
+              path: "",
+              name: "product",
+              component: Products,
+            },
+            {
+              path: ":id",
+              name: "product-detail",
+              component: ProductDetail,
+            },
+          ],
+        },
+        {
           path: "about",
           name: "about",
           component: About,
@@ -86,31 +104,19 @@ const router = createRouter({
           component: PrivacyPolicy,
         },
         {
-          path: "faq",
-          name: "faq",
-          component: FAQ,
-        },
-        {
           path: "return-refund",
           name: "returnRefund",
           component: ReturnRefund,
         },
         {
-          path: "products/",
-          name: "products-view",
-          component: ProductView,
-          children: [
-            {
-              path: "",
-              name: "product",
-              component: Products,
-            },
-            {
-              path: ":id",
-              name: "product-detail",
-              component: ProductDetail,
-            },
-          ],
+          path: "feedback",
+          name: "feedback",
+          component: FeedBack,
+        },
+        {
+          path: "faq",
+          name: "faq",
+          component: FAQ,
         },
         {
           path: "cart",

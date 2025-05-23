@@ -40,7 +40,7 @@ const { cartItems } = storeToRefs(cartStore);
               scope="row"
               class="px-6 py-4 font-medium whitespace-nowrap text-white"
             >
-              {{ product.name }}
+              {{ product.product_name }}
             </th>
             <td class="px-6 py-4">{{ product.qty }}</td>
             <td class="px-6 py-4">${{ product.price.toLocaleString() }}</td>

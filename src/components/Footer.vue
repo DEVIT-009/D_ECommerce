@@ -51,7 +51,7 @@ const quickLinks = [
     link: "/about",
   },
   {
-    label: "Contact",
+    label: "Contact Us",
     link: "/contact",
   },
 ];
@@ -59,6 +59,10 @@ const customerService = [
   {
     label: "FAQ",
     link: "/faq",
+  },
+  {
+    label: "Feedback",
+    link: "/feedback",
   },
   {
     label: "Shipping | Delivery Policy",
@@ -85,7 +89,7 @@ const contactInfo = [
     icon: Mail,
   },
   {
-    label: "+855:96 7234 500",
+    label: "+855 96 7234 500",
     link: "#",
     icon: Phone,
   },
@@ -117,7 +121,7 @@ const contactInfo = [
                 viewBox="0 0 50 50"
                 width="30px"
                 height="30px"
-                class="text-base-content hover:text-primary transition-colors"
+                class="text-base-content hover:text-accent transition-colors"
               >
                 <path fill="currentColor" :d="link.d" />
               </svg>
@@ -132,7 +136,7 @@ const contactInfo = [
             <li v-for="link in quickLinks" :key="link.label">
               <RouterLink
                 :to="link.link"
-                class="hover:text-primary transition-colors"
+                class="hover:text-accent transition-colors"
               >
                 {{ link.label }}
               </RouterLink>
@@ -147,7 +151,7 @@ const contactInfo = [
             <li v-for="link in customerService" :key="link.label">
               <RouterLink
                 :to="link.link"
-                class="hover:text-primary transition-colors"
+                class="hover:text-accent transition-colors"
               >
                 {{ link.label }}
               </RouterLink>
@@ -164,12 +168,12 @@ const contactInfo = [
               :key="info.label"
               class="flex items-center space-x-2"
             >
-              <component :is="info.icon" :class="`w-6 h-6 text-base-content`" />
+              <component :is="info.icon" :class="`w-4 h-4 text-base-content`" />
               <a
                 :href="info.link"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="hover:text-primary transition-colors"
+                class="hover:text-accent transition-colors"
               >
                 {{ info.label }}
               </a>
@@ -190,7 +194,7 @@ const contactInfo = [
           <form @submit.prevent="handleSubscribe" class="flex gap-2">
             <div class="relative z-0 w-full mb-5 group">
               <input
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-accent focus:outline-none focus:ring-0 focus:border-accent peer"
                 type="email"
                 v-model="email"
                 required
@@ -198,14 +202,14 @@ const contactInfo = [
               />
               <label
                 for="email"
-                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-3 left-0 origin-[0] peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-3 left-0 origin-[0] peer-focus:text-accent peer-focus:dark:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Enter your email
               </label>
             </div>
             <button
               type="submit"
-              class="btn btn-primary rounded-s-[0] rounded-e-full px-10"
+              class="btn btn-accent rounded-s-[0] rounded-e-full px-10"
             >
               Subscribe
             </button>

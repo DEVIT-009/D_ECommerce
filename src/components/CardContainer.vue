@@ -26,12 +26,17 @@ const dataFilter = computed(() => {
 </script>
 
 <template>
-  <div v-if="state.isLoading" class="w-full flex justify-center">
+  <!-- Loading -->
+  <div
+    v-if="state.isLoading"
+    class="fixed inset-0 flex items-center justify-center z-10 bg-base-300/5 backdrop-blur-[3px] min-h-screen"
+  >
     <PulseLoader color="#ffffff" />
   </div>
+  <!-- Content -->
   <div
     v-else
-    class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 py-2"
+    class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 py-2"
   >
     <!-- Card list all -->
     <CardPhone

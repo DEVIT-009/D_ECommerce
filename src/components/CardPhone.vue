@@ -22,7 +22,7 @@ function handleAddToCart() {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-sm ring-1 ring-slate-900 max-w-md">
+  <div class="card bg-base-100 ring-2 ring-base-300 max-w-md">
     <figure class="relative group">
       <span
         class="bg-base-300/10 backdrop-blur-sm font-bold py-2 px-7 rounded-full text-warning text-xl ring-1 ring-white/20 cursor-default absolute top-2 right-2 group-hover:bg-base-300/50 group-hover:ring-white/90 transition-all"
@@ -38,19 +38,19 @@ function handleAddToCart() {
       <div class="card-actions justify-start">
         <RouterLink
           :to="`/products/${product.product_id}`"
-          class="btn btn-primary btn-outline"
+          class="btn btn-accent btn-outline"
         >
           Details
         </RouterLink>
         <button
-          :class="`btn btn-primary ${props.showAddCart ? 'block' : 'hidden'}`"
+          :class="`btn btn-accent ${props.showAddCart ? 'block' : 'hidden'}`"
           @click="handleAddToCart"
         >
           Add to cart
         </button>
         <RouterLink
           :to="`/d-admin/product/func`"
-          :class="`place-items-center btn btn-primary ${
+          :class="`place-items-center btn btn-accent ${
             props.showAddCart ? 'hidden' : 'grid'
           }`"
         >
