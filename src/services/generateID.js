@@ -1,6 +1,8 @@
 import { useGetProd } from "./ProductService.js";
 import { useGetUser } from "./userService.js";
+import { useGetOrder } from "./orderService.js";
 import { reactive } from "vue";
+import { useGetReceiver } from "./receiverService.js";
 
 const id_state = reactive({
   id: null,
@@ -38,6 +40,7 @@ async function generateProductId() {
   }
 }
 
+// Function to generate a new unique User ID
 async function generateUserId() {
   const { state, getUser } = useGetUser();
   try {
@@ -67,4 +70,72 @@ async function generateUserId() {
   }
 }
 
-export { id_state, generateProductId, generateUserId };
+// Function to generate a new unique User ID
+function generateOrderId() {
+  const { getOrderState, getOrder } = useGetOrder();
+  const orderIdState = reactive({
+    order_id: null,
+    isLoading: false,
+    error: null,
+  });
+  async function orderId() {
+    try {
+      orderIdState.isLoading = true;
+      await getOrder();
+
+      if (getOrderState.orders && getOrderState.orders.length > 0) {
+        const maxId = Math.max(
+          ...getOrderState.orders.map((order) => Number(order.order_id))
+        );
+        orderIdState.order_id = maxId + 1;
+      } else {
+        orderIdState.order_id = 1;
+      }
+    } catch (error) {
+      orderIdState.error = error.message || "Failed to generate order ID";
+    } finally {
+      orderIdState.isLoading = false;
+    }
+  }
+
+  return { orderIdState, orderId };
+}
+
+// Function to generate a new unique Receiver ID
+function generateReceiverId() {
+  const { receiverState, getReceiver } = useGetReceiver();
+  const receiverIdState = reactive({
+    receiver_id: null,
+    isLoading: false,
+    error: null,
+  });
+  async function receiverId() {
+    try {
+      receiverIdState.isLoading = true;
+      await getReceiver();
+
+      if (receiverState.receiver && receiverState.receiver.length > 0) {
+        const maxId = Math.max(
+          ...receiverState.receiver.map((r) => Number(r.receiver_id))
+        );
+        receiverIdState.receiver_id = maxId + 1;
+      } else {
+        receiverIdState.receiver_id = 1;
+      }
+    } catch (error) {
+      receiverIdState.error = error.message || "Failed to generate receiver ID";
+    } finally {
+      receiverIdState.isLoading = false;
+    }
+  }
+
+  return { receiverIdState, receiverId };
+}
+
+export {
+  id_state,
+  generateProductId,
+  generateUserId,
+  generateOrderId,
+  generateReceiverId,
+};

@@ -9,8 +9,8 @@ const props = defineProps({
 </script>
 <template>
   <ul class="steps min-w-72 text-[12px] md:text-sm">
-    <li class="step step-primary">Information</li>
-    <li :class="`step ${props.limit >= 2 ? 'step-primary' : ''}`">Payment</li>
-    <li :class="`step ${props.limit == 3 ? 'step-primary' : ''}`">Check Out</li>
+    <li class="step step-accent">Information</li>
+    <li :class="`step ${props.limit >= 2 ? 'step-accent' : ''}`">Payment</li>
+    <li :class="`step ${props.limit == 3 ? 'step-accent' : ''}`">Check Out</li>
   </ul>
 </template>

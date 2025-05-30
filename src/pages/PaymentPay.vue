@@ -5,7 +5,9 @@ import StepPayment from "../components/StepPayment.vue";
 import payByBank from "../components/payByBank.vue";
 import { CreditCard, Dot, ChevronLeft } from "lucide-vue-next";
 import { useCartStore } from "../stores/cartStore.js";
+import { useOrderStore } from "../stores/orderStore.js";
 
+const orderStore = useOrderStore();
 const cartStore = useCartStore();
 const dataQR = [
   {
@@ -69,11 +71,11 @@ onMounted(() => {
   <div class="w-full flex-1 flex flex-col">
     <!-- Step roadmap -->
     <div
-      class="flex justify-between items-center p-4 rounded-lg ring-1 ring-primary mb-2"
+      class="flex justify-between items-center p-4 rounded-lg ring-1 ring-accent mb-2"
     >
       <RouterLink
         to="/payment"
-        class="btn btn-primary flex items-center text-lg gap-2"
+        class="btn btn-accent flex items-center text-lg gap-2"
       >
         <ChevronLeft />
       </RouterLink>

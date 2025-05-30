@@ -8,7 +8,7 @@ const cartStore = useCartStore();
   <div class="card bg-base-300 shadow-sm w-full">
     <div class="card-body">
       <h1
-        class="text-primary bg-base-100 font-bold text-2xl py-4 px-7 rounded-full w-full flex items-center gap-2"
+        class="text-accent bg-base-100 font-bold text-2xl py-4 px-7 rounded-full w-full flex items-center gap-2"
       >
         <BadgeDollarSign />GRAND-TOTAL
       </h1>
@@ -30,7 +30,7 @@ const cartStore = useCartStore();
           <span> : ${{ cartStore.taxValue }} </span>
         </li>
         <div class="border-t-2 border-dashed my-2"></div>
-        <li class="grid list-grand-total text-primary">
+        <li class="grid list-grand-total text-accent">
           <span class="label"><CircleCheckBig />Grand-Total</span>
           <span
             >: ${{

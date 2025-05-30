@@ -1,7 +1,5 @@
 <script setup>
 import logo from "@/assets/logo_white.png";
-import StepPayment from "../components/StepPayment.vue";
-import Button from "../components/Button.vue";
 import { useCartStore } from "../stores/cartStore";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/userData";
@@ -10,9 +8,15 @@ const userStore = useUserStore();
 
 const cartStore = useCartStore();
 const { cartItems } = storeToRefs(cartStore);
+const props = defineProps({
+  order_date: {
+    type: String,
+    default: new Date().toLocaleDateString(),
+  },
+});
 </script>
 <template>
-  <div class="bg-base-300 rounded-lg p-7 my-2 max-w-2xl w-full">
+  <div class="bg-base-300 rounded-lg p-7 max-w-2xl w-full">
     <!-- Logo -->
     <figure class="flex items-center gap-4">
       <img
@@ -30,14 +34,12 @@ const { cartItems } = storeToRefs(cartStore);
     <!-- INV & Customer -->
     <div class="flex justify-between mt-2">
       <div>
-        <p class="md:text-sm text-[12px]">
-          Date: {{ new Date().toLocaleDateString() }}
-        </p>
+        <p class="md:text-sm text-[12px]">Date: {{ props.order_date }}</p>
         <p class="md:text-sm text-[12px]">Invoice No: 001</p>
       </div>
       <div>
         <p class="text-sm text-right">
-          Customer Name: {{ userStore.f_name + " " + userStore.l_name }}
+          Customer Name: {{ userStore.first_name + " " + userStore.last_name }}
         </p>
         <p class="text-sm text-right">Tel: {{ userStore.phone }}</p>
       </div>
@@ -110,3 +112,5 @@ const { cartItems } = storeToRefs(cartStore);
     </div>
   </div>
 </template>
+
+<!-- <Invoice :order_date="new Date().toLocaleDateString()" /> -->

@@ -489,11 +489,11 @@ const dataDisplay = reactive([
           <button
             type="button"
             @click="generateSampleData"
-            class="btn btn-primary px-10 btn-outline rounded-e-[0] rounded-s-full"
+            class="btn btn-accent px-10 btn-outline rounded-e-[0] rounded-s-full"
           >
             <Wand class="w-4 h-4" /> Generate Sample Data
           </button>
-          <button type="submit" class="btn btn-primary px-10 rounded-s-[0]">
+          <button type="submit" class="btn btn-accent px-10 rounded-s-[0]">
             Submit <SendHorizontal class="w-4 h-4" />
           </button>
         </div>

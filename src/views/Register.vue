@@ -8,6 +8,7 @@ import {
   EyeOff,
   KeyRound,
   SendHorizontal,
+  ListMinus,
 } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
@@ -179,16 +180,19 @@ const dataDisplay = ref([
   <!-- Show -->
   <div
     v-else
-    class="max-w-7xl mx-auto w-full md:grid md:grid-cols-2 grid-cols-1 gap-4 items-center min-h-screen"
+    class="max-w-7xl mx-auto w-full min-h-screen px-2 py-3 grid md:grid-cols-2 grid-cols-1 gap-8 items-center bg-gradient-to-br from-base-200 to-base-300"
   >
     <div
-      class="login-container max-w-lg mx-auto w-full bg-base-300 rounded-lg py-10"
+      class="max-w-lg mx-auto w-full bg-base-100 rounded-2xl py-12 shadow-2xl transform hover:scale-[1.02] transition-all duration-300"
     >
       <h1
-        class="max-w-sm mx-auto p-4 w-full text-3xl font-bold rounded-full text-center"
+        class="max-w-sm mx-auto p-4 w-full text-4xl font-bold text-center bg-gradient-to-r from-accent to-info bg-clip-text text-transparent"
       >
         Create Account
       </h1>
+      <p class="text-center text-base-content/70 mb-8">
+        Please fill in your details to register
+      </p>
       <form
         class="max-w-lg mx-auto rounded-lg px-10"
         @submit.prevent="handleSubmit"
@@ -249,29 +253,14 @@ const dataDisplay = ref([
             />
           </div>
         </div>
-        <!-- Position -->
-        <div class="relative">
-          <label for="position" class="absolute inset-y-2 right-2.5">
-            <ChevronDown class="w-5 h-5 text-base-content/50" />
-          </label>
-          <select
-            class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-            v-model="userState.position"
-            id="position"
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <!-- Button -->
-        <div class="w-full flex justify-end mt-10">
+        <div class="w-full flex justify-end mt-12">
           <RouterLink
             to="/login"
-            class="btn btn-primary px-14 btn-outline rounded-e-[0] rounded-s-full"
+            class="btn btn-accent px-14 btn-outline rounded-e-[0] rounded-s-full"
           >
-            <KeyRound class="w-4 h-4" />Login
+            <ListMinus class="w-4 h-4" />Login
           </RouterLink>
-          <button type="submit" class="btn btn-primary px-10 rounded-s-[0]">
+          <button type="submit" class="btn btn-accent px-10 rounded-s-[0]">
             Register
             <SendHorizontal class="w-4 h-4" />
           </button>
@@ -279,7 +268,7 @@ const dataDisplay = ref([
       </form>
     </div>
     <div class="max-w-lg hidden md:block">
-      <img :src="banner" alt="banner-login" />
+      <img :src="banner" alt="banner-register" />
     </div>
   </div>
 </template>

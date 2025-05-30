@@ -11,7 +11,9 @@ const state = reactive({
   error: null,
 });
 
-// GET
+/**
+ * GET
+ */
 function useGetUser() {
   const getUser = async () => {
     state.isLoading = true;
@@ -27,7 +29,7 @@ function useGetUser() {
       state.users = response.data;
     } catch (err) {
       state.error = err.message || "Failed to fetch users";
-      console.error("Error fetching users:", err);
+      // console.error("Error fetching users:", err);
     } finally {
       state.isLoading = false;
     }
@@ -37,7 +39,9 @@ function useGetUser() {
   return { state, getUser };
 }
 
-// GET ONE
+/**
+ * Get One
+ */
 function useGetOneUser() {
   const getOneUser = async (id) => {
     state.isLoading = true;
@@ -53,7 +57,7 @@ function useGetOneUser() {
       state.users = response.data;
     } catch (err) {
       state.error = err.message || "Failed to get user";
-      console.error("Error getting user:", err);
+      // console.error("Error getting user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -61,7 +65,9 @@ function useGetOneUser() {
   return { state, getOneUser };
 }
 
-// POST
+/**
+ * POST
+ */
 function usePostUser() {
   const postUser = async (userState) => {
     state.isLoading = true;
@@ -71,13 +77,13 @@ function usePostUser() {
         ...config,
         headers: {
           ...config.headers,
-          Prefer: "return=representation",
+          // Prefer: "return=representation",
         },
       });
       state.users = response.data;
     } catch (err) {
       state.error = err.message || "Failed to add user";
-      console.error("Error adding user:", err);
+      // console.error("Error adding user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -86,7 +92,10 @@ function usePostUser() {
   return { state, postUser };
 }
 
-// PATCH with PUT
+/**
+ * PATCH
+ * @returns
+ */
 function usePatchUser() {
   const patchUser = async (id, patchData) => {
     state.isLoading = true;
@@ -99,13 +108,13 @@ function usePatchUser() {
         },
         headers: {
           ...config.headers,
-          Prefer: "return=representation",
+          // Prefer: "return=representation",
         },
       });
       state.users = response.data;
     } catch (err) {
       state.error = err.message || "Failed to update user";
-      console.error("Error updating user:", err);
+      // console.error("Error updating user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -114,7 +123,10 @@ function usePatchUser() {
   return { state, patchUser };
 }
 
-// DELETE
+/**
+ * DELETE
+ * @returns
+ */
 function useDeleteUser() {
   const deleteUser = async (id) => {
     state.isLoading = true;
@@ -128,7 +140,7 @@ function useDeleteUser() {
       });
     } catch (err) {
       state.error = err.message || "Failed to delete user";
-      console.error("Error deleting user:", err);
+      // console.error("Error deleting user:", err);
     } finally {
       state.isLoading = false;
     }
@@ -136,7 +148,10 @@ function useDeleteUser() {
   return { state, deleteUser };
 }
 
-// Check User
+/**
+ * GET CHECK USER example check email & password of user
+ * @returns
+ */
 function useCheckUser() {
   const checkUser = async (filters) => {
     state.isLoading = true;
@@ -158,7 +173,7 @@ function useCheckUser() {
       }
     } catch (err) {
       state.error = err.message || "Failed to check user";
-      console.error("Error checking user:", err);
+      // console.error("Error checking user:", err);
     } finally {
       state.isLoading = false;
     }

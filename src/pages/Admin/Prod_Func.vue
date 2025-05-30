@@ -88,7 +88,7 @@ getProd();
       class="flex flex-col items-center justify-center py-10"
     >
       <p class="text-lg text-gray-500 dark:text-gray-400">No products found</p>
-      <RouterLink to="/d-admin/product/add" class="btn btn-primary mt-4">
+      <RouterLink to="/d-admin/product/add" class="btn btn-accent mt-4">
         Add New Product
       </RouterLink>
     </div>
@@ -179,7 +179,7 @@ getProd();
           <td class="px-6 py-4 max-md:text-[12px] text-right">
             <div class="dropdown dropdown-end">
               <button
-                class="btn btn-circle btn-link group-hover:btn-soft group-hover:btn-primary"
+                class="btn btn-circle btn-link group-hover:btn-soft group-hover:btn-accent"
                 tabindex="0"
               >
                 <Ellipsis />

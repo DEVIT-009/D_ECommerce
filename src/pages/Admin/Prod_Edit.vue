@@ -473,11 +473,11 @@ const dataDisplay = reactive([
           <button
             type="button"
             @click="generateSampleData"
-            class="btn btn-primary px-20 btn-outline rounded-e-[0] rounded-s-full"
+            class="btn btn-accent px-20 btn-outline rounded-e-[0] rounded-s-full"
           >
             <RefreshCcw class="w-4 h-4" /> Cancel
           </button>
-          <button type="submit" class="btn btn-primary px-14 rounded-s-[0]">
+          <button type="submit" class="btn btn-accent px-14 rounded-s-[0]">
             Edit
             <Pencil class="w-4 h-4" />
           </button>

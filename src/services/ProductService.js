@@ -8,13 +8,14 @@ const prodUrl = import.meta.env.VITE_SUPABASE_URL + "/rest/v1/products";
 const state = reactive({
   products: [],
   isLoading: false,
-  error: "",
+  error: null,
 });
 
 // Get all products
 function useGetProd() {
   async function getProd() {
     state.isLoading = true;
+    state.error = null;
     try {
       const response = await axios.get(prodUrl, {
         ...config,
@@ -26,7 +27,7 @@ function useGetProd() {
       state.products = response.data;
     } catch (err) {
       state.error = err.message || "Failed to fetch products";
-      console.error("Error fetching products:", err);
+      // console.error("Error fetching products:", err);
     } finally {
       state.isLoading = false;
     }
@@ -36,11 +37,38 @@ function useGetProd() {
   return { state, getProd };
 }
 
+function useGetLatestProd() {
+  async function getLatestProd() {
+    state.isLoading = true;
+    state.error = null;
+    try {
+      const response = await axios.get(prodUrl, {
+        ...config,
+        params: {
+          select: "*",
+          order: "release_date.desc",
+          limit: 6,
+        },
+      });
+      // Ensure we only get 6 products
+      state.products = response.data.slice(0, 6);
+    } catch (err) {
+      state.error = err.message || "Failed to fetch products";
+      console.error("Error fetching products:", err);
+    } finally {
+      state.isLoading = false;
+    }
+  }
+
+  getLatestProd();
+  return { state, getLatestProd };
+}
+
 // Get single product
 function useGetOneProd() {
   const getOneProd = async (product_id) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
       const response = await axios.get(prodUrl, {
         ...config,
@@ -64,15 +92,9 @@ function useGetOneProd() {
 function usePostProd() {
   const postProd = async (prodAdd) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
-      const response = await axios.post(prodUrl, prodAdd, {
-        ...config,
-        headers: {
-          ...config.headers,
-          Prefer: "return=representation",
-        },
-      });
+      const response = await axios.post(prodUrl, prodAdd, config);
       // Set state to only contain the new product
       state.products = response.data;
     } catch (err) {
@@ -90,7 +112,7 @@ function usePostProd() {
 function useDeleteProd() {
   const deleteProd = async (product_id) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
       await axios.delete(prodUrl, {
         ...config,
@@ -113,16 +135,12 @@ function useDeleteProd() {
 function usePutProd() {
   const putProd = async (product_id, dataUpdate) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
       const response = await axios.put(prodUrl, dataUpdate, {
         ...config,
         params: {
           product_id: `eq.${product_id}`,
-        },
-        headers: {
-          ...config.headers,
-          Prefer: "return=representation",
         },
       });
       // Set state to only contain the updated product
@@ -141,22 +159,18 @@ function usePutProd() {
 function usePatchProd() {
   const patchProd = async (product_id, patchData) => {
     state.isLoading = true;
-    state.error = "";
+    state.error = null;
     try {
       const response = await axios.patch(prodUrl, patchData, {
         ...config,
         params: {
           product_id: `eq.${product_id}`,
         },
-        headers: {
-          ...config.headers,
-          Prefer: "return=representation",
-        },
       });
       // Set state to only contain the updated product
       state.products = response.data;
     } catch (error) {
-      console.error("Error updating product quantity:", error);
+      // console.error("Error updating product quantity:", error);
       state.error = error.message || "Failed to update product quantity";
     } finally {
       state.isLoading = false;
@@ -170,6 +184,7 @@ export {
   state, // Data
   prodUrl,
   useGetProd,
+  useGetLatestProd,
   useGetOneProd,
   usePostProd,
   useDeleteProd,

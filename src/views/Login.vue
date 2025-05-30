@@ -52,14 +52,19 @@ const handleLogin = async () => {
   <!-- Done Process -->
   <div
     v-else
-    class="max-w-7xl mx-auto w-full p-1 md:grid md:grid-cols-2 grid-cols-1 gap-4 items-center min-h-screen"
+    class="max-w-7xl mx-auto w-full min-h-screen px-2 py-3 grid md:grid-cols-2 grid-cols-1 gap-8 items-center bg-gradient-to-br from-base-200 to-base-300"
   >
-    <div class="max-w-lg mx-auto w-full bg-base-300 rounded-lg py-10">
+    <div
+      class="max-w-lg mx-auto w-full bg-base-100 rounded-2xl py-12 shadow-2xl transform hover:scale-[1.02] transition-all duration-300"
+    >
       <h1
-        class="max-w-sm mx-auto p-4 w-full text-3xl font-bold rounded-full text-center"
+        class="max-w-sm mx-auto p-4 w-full text-4xl font-bold text-center bg-gradient-to-r from-accent to-info bg-clip-text text-transparent"
       >
-        Login
+        Welcome Back
       </h1>
+      <p class="text-center text-base-content/70 mb-8">
+        Please sign in to continue
+      </p>
       <form
         class="max-w-sm mx-auto p-5 rounded-lg"
         @submit.prevent="handleLogin"
@@ -99,14 +104,14 @@ const handleLogin = async () => {
             Your Password *
           </label>
         </div>
-        <div class="w-full flex justify-end mt-10">
+        <div class="w-full flex justify-end mt-12">
           <RouterLink
             to="/register"
-            class="btn btn-primary px-14 btn-outline rounded-e-[0] rounded-s-full"
+            class="btn btn-accent px-14 btn-outline rounded-e-[0] rounded-s-full"
           >
             <ListMinus class="w-4 h-4" />Register
           </RouterLink>
-          <button type="submit" class="btn btn-primary px-10 rounded-s-[0]">
+          <button type="submit" class="btn btn-accent px-10 rounded-s-[0]">
             Login
             <SendHorizontal class="w-4 h-4" />
           </button>

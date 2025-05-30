@@ -196,7 +196,7 @@ const handleUpdatePosition = async (id, userName, value) => {
                 </RouterLink>
                 <div class="" v-else>
                   <button
-                    class="btn btn-circle btn-soft btn-primary"
+                    class="btn btn-circle btn-soft btn-accent"
                     :popovertarget="`popover-${index + 1}`"
                     :style="`anchor-name: --anchor-${index + 1}`"
                   >

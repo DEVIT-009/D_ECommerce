@@ -186,7 +186,7 @@ onMounted(async () => {
       <!-- Avartar -->
       <div class="avatar max-w-100 w-full">
         <div
-          class="w-full ring-primary ring-offset-base-100 rounded-full ring-2 ring-offset-2"
+          class="w-full ring-accent ring-offset-base-100 rounded-full ring-2 ring-offset-2"
         >
           <img :src="formState.image || imgDefault" alt="img-profile" />
         </div>
@@ -195,7 +195,7 @@ onMounted(async () => {
       <div
         class="mt-4 w-full max-w-100 bg-base-300 text-center py-4 rounded-lg"
       >
-        <h1 class="text-3xl uppercase font-bold text-primary">
+        <h1 class="text-3xl uppercase font-bold text-accent">
           {{ formState.first_name }}
           {{ formState.last_name }}
         </h1>

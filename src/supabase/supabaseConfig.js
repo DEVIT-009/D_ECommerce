@@ -4,6 +4,7 @@ const config = {
   headers: {
     apikey: supabaseKey,
     Authorization: `Bearer ${supabaseKey}`,
+    Prefer: "return=representation",
   },
 };
 

@@ -32,7 +32,7 @@ function handleResetBrand() {
     >
       <button
         @click="() => handleChangeBrand(brand)"
-        class="btn md:btn-xl btn-primary"
+        class="btn md:btn-xl btn-accent"
       >
         <CornerDownRight />
         Filter {{ brand.toUpperCase() }}s

@@ -102,7 +102,7 @@ function handleAdd() {
             stock!
           </p>
           <hr class="bg-white/30 border-none h-[1px]" />
-          <Button text="Add to Cart" _class="btn-primary" @click="handleAdd" />
+          <Button text="Add to Cart" _class="btn-accent" @click="handleAdd" />
         </div>
       </div>
       <div class="collapse collapse-arrow bg-base-100 border border-base-300">

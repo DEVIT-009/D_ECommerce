@@ -96,7 +96,7 @@ const toggleAccordion = (index) => {
         Can't find the answer you're looking for? Our support team is here to
         help.
       </p>
-      <RouterLink to="/contact" class="btn btn-primary">
+      <RouterLink to="/contact" class="btn btn-accent">
         Contact Support
       </RouterLink>
     </div>

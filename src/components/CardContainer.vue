@@ -1,11 +1,11 @@
 <script setup>
 import CardPhone from "./CardPhone.vue";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 // Service API
 import { useGetProd } from "../services/ProductService";
 
-const { state } = useGetProd();
+const { state, getProd } = useGetProd();
 
 const props = defineProps({
   _showAddCart: {
@@ -16,6 +16,10 @@ const props = defineProps({
   _brand: {
     default: "",
   },
+});
+
+onMounted(async () => {
+  await getProd();
 });
 
 const dataFilter = computed(() => {

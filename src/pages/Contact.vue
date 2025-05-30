@@ -103,7 +103,7 @@ const formContactUs = reactive([
         :key="index"
         class="bg-base-200 ring-1 ring-base-content/20 hover:ring-base-content/80 hover:bg-base-300 p-6 rounded-lg text-center hover:shadow-lg transition-all"
       >
-        <component :is="info.icon" class="w-8 h-8 mx-auto mb-4 text-primary" />
+        <component :is="info.icon" class="w-8 h-8 mx-auto mb-4 text-accent" />
         <h3 class="text-lg font-semibold cursor-default mb-2">
           {{ info.title }}
         </h3>
@@ -111,7 +111,7 @@ const formContactUs = reactive([
           :href="info.link"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-base-content/70 hover:text-primary transition-colors"
+          class="text-base-content/70 hover:text-accent transition-colors"
         >
           {{ info.content }}
         </a>
@@ -165,7 +165,7 @@ const formContactUs = reactive([
 
           <button
             type="button"
-            class="btn btn-primary w-full"
+            class="btn btn-accent w-full"
             :disabled="isLoading"
           >
             <Send class="w-5 h-5 mr-2" />
@@ -195,7 +195,7 @@ const formContactUs = reactive([
             href="https://www.google.com/maps?ll=11.552132,104.864804&z=16&t=m&hl=en&gl=KH&mapclient=embed&q=11%C2%B033%2707.7%22N+104%C2%B051%2753.3%22E+11.552132,+104.864804@11.552132,104.864804"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-primary gap-2"
+            class="btn btn-accent gap-2"
           >
             <MapPin class="w-5 h-5" />
             Open with Google Maps

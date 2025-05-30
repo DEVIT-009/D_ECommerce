@@ -27,7 +27,7 @@ const props = defineProps({
           for="my-drawer"
           class="btn md:btn-lg btn-accent btn-soft btn-square btn-circle drawer-button"
         >
-          <Text />
+          <Text class="w-5 h-5" />
         </label>
       </div>
       <div class="drawer-side border-s-2 border-accent/20">
@@ -44,7 +44,7 @@ const props = defineProps({
               aria-label="close"
               class="btn md:btn-lg btn-accent btn-soft btn-square btn-circle"
             >
-              <X />
+              <X class="w-5 h-5" />
             </label>
           </li>
           <!-- Menu -->

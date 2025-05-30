@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 // components
 import GrandTotal from "../components/GrandTotal.vue";
 // Style
-import { Plus, Minus, X } from "lucide-vue-next";
+import { ChevronRight, Plus, Minus, X } from "lucide-vue-next";
 import { useToast } from "vue-toastification";
 // router for navigation
 import rootrouter from "@/routers/rootrouter";
@@ -126,8 +126,8 @@ function handleGoToPayment() {
     <div class="min-w-100">
       <GrandTotal />
       <div class="mt-2">
-        <button class="btn btn-primary w-full" @click="handleGoToPayment">
-          Payment
+        <button class="btn btn-accent w-full" @click="handleGoToPayment">
+          Payment <ChevronRight class="w-4 h-4" />
         </button>
       </div>
     </div>

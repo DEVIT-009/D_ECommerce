@@ -24,7 +24,7 @@ const cartStore = useCartStore();
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-square btn-circle btn-soft btn-accent md:btn-lg cursor-default">
         <div class="indicator">
-          <ShoppingCart />
+          <ShoppingCart class="w-5 h-5" />
           <span
             :class="`badge badge-sm -top-1 -right-2 bg-red-700 indicator-item ${
               cartStore.totalCount == 0 ? 'hidden' : ''
@@ -42,15 +42,16 @@ const cartStore = useCartStore();
           <span class="text-lg font-bold">
             {{ cartStore.totalCount }} items
           </span>
-          <span class="text-info">
+          <span class="text-accent">
             Sub-Total: ${{ cartStore.subTotalPrice.toLocaleString() }}
           </span>
           <div class="card-actions">
-            <Button
-              text="View cart"
-              _class="btn-primary btn-block"
-              link="/cart"
-            />
+            <RouterLink
+            to="/cart"
+            class="btn btn-accent btn-block"
+            >
+            View Cart
+          </RouterLink>
           </div>
         </div>
       </div>

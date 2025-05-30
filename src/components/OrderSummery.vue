@@ -76,7 +76,7 @@ const { cartItems } = storeToRefs(cartStore);
     </div>
     <!-- Delivery section -->
     <div
-      class="grid md:grid-cols-2 gap-4 p-4 bg-base-300 ring-1 ring-primary mt-4"
+      class="grid md:grid-cols-2 gap-4 p-4 bg-base-300 ring-1 ring-accent mt-4"
     >
       <!-- Delivery -->
       <div class="flex items-center gap-2">
@@ -92,8 +92,9 @@ const { cartItems } = storeToRefs(cartStore);
           :class="`hover:underline cursor-pointer text-[12px] ${
             cartStore.isDelivery ? 'text-white' : 'text-white/50'
           }`"
-          >I want Delivery!</label
         >
+          I want Delivery!
+        </label>
       </div>
       <!-- Not Delivery -->
       <div class="flex items-center gap-2">

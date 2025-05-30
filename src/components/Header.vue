@@ -30,7 +30,7 @@ const navLink = [
     isBorder: true,
   },
   {
-    link: "/product",
+    link: "/products",
     label: "Phones",
     icon: TabletSmartphone,
     isBorder: false,
